@@ -527,7 +527,7 @@
     };
 
     function initData() {
-      var saved = localStorage.getItem("cwood_badminton_legacy");
+      var saved = localStorage.getItem("cwood_badminton_app");
       if (saved) {
         appData = JSON.parse(saved);
       } else {
@@ -539,7 +539,7 @@
     }
 
     function saveData() {
-      localStorage.setItem("cwood_badminton_legacy", JSON.stringify({
+      localStorage.setItem("cwood_badminton_app", JSON.stringify({
         isAdmin: appData.isAdmin,
         players: appData.players,
         matches: appData.matches
