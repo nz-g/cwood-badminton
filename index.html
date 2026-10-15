@@ -42,6 +42,20 @@
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #475569; }
     .badge-glow { box-shadow: 0 0 10px rgba(204, 255, 0, 0.2); }
+
+    .table-responsive {
+  max-height: 400px; /* Adjust this height to fit your desired window size */
+  overflow-y: auto;
+  border-radius: 8px;
+}
+
+/* Optional: Keep table headers sticky while scrolling */
+.table-responsive table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #1e293b; /* Match your app's table header background color */
+  z-index: 10;
+}
   </style>
 </head>
 <body class="h-full flex flex-col font-sans antialiased text-slate-100 bg-slate-900 selection:bg-lime-400 selection:text-slate-900">
@@ -173,6 +187,7 @@
         </div>
 
         <!-- Leaderboard Table -->
+        <div class="table-responsive">
         <div class="overflow-x-auto rounded-xl border border-slate-700/60">
           <table class="w-full text-left border-collapse">
             <thead>
@@ -190,6 +205,7 @@
             <tbody id="leaderboard-body" class="divide-y divide-slate-700/40 text-sm font-medium">
               <!-- JS Rendered -->
             </tbody>
+          </table>
           </table>
         </div>
       </div>
