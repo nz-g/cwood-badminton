@@ -4,11 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cwood Badminton Stats</title>
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts: Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
@@ -16,52 +13,25 @@
       theme: {
         extend: {
           colors: {
-            brand: {
-              50: '#f0fdf4',
-              100: '#dcfce7',
-              400: '#4ade80',
-              500: '#22c55e',
-              600: '#16a34a',
-              accent: '#ccff00',
-              teal: '#14b8a6',
-              dark: '#0f172a',
-              card: '#1e293b'
-            }
+            brand: { 50: '#f0fdf4', 100: '#dcfce7', 400: '#4ade80', 500: '#22c55e', 600: '#16a34a', accent: '#ccff00', teal: '#14b8a6', dark: '#0f172a', card: '#1e293b' }
           },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif']
-          }
+          fontFamily: { sans: ['Inter', 'sans-serif'] }
         }
       }
     }
   </script>
   <style>
-    /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: #0f172a; }
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #475569; }
     .badge-glow { box-shadow: 0 0 10px rgba(204, 255, 0, 0.2); }
-
-    .table-responsive {
-  max-height: 400px; /* Adjust this height to fit your desired window size */
-  overflow-y: auto;
-  border-radius: 8px;      
-    margin-bottom: 20px;
-}
-
-/* Optional: Keep table headers sticky while scrolling */
-.table-responsive table thead th {
-  position: sticky;
-  top: 0;
-  background-color: #1e293b; /* Match your app's table header background color */
-  z-index: 10;
-}
+    .table-responsive { max-height: 400px; overflow-y: auto; border-radius: 8px; margin-bottom: 20px; }
+    .table-responsive table thead th { position: sticky; top: 0; background-color: #1e293b; z-index: 10; }
   </style>
 </head>
 <body class="h-full flex flex-col font-sans antialiased text-slate-100 bg-slate-900 selection:bg-lime-400 selection:text-slate-900">
 
-  <!-- Toast Notification System -->
   <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
   <!-- Admin Login Modal -->
@@ -93,8 +63,6 @@
   <header class="bg-slate-950/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
-        
-        <!-- Logo & Subtle Mode Status -->
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-lime-400 to-emerald-500 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg shadow-lime-500/20">
             <i class="fa-solid fa-shuttlecock text-slate-950 rotate-45"></i>
@@ -109,7 +77,6 @@
           </div>
         </div>
 
-        <!-- Navigation Tabs (Desktop) -->
         <nav class="hidden md:flex space-x-1 lg:space-x-2">
           <button onclick="switchTab('leaderboard')" id="nav-leaderboard" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2">
             <i class="fa-solid fa-trophy text-xs"></i> Standings
@@ -128,56 +95,35 @@
           </button>
         </nav>
 
-        <!-- Right Side: Clean Admin Toggle -->
         <div class="flex items-center gap-2">
           <button id="btn-quick-record" onclick="switchTab('record')" class="admin-only hidden bg-lime-400 hover:bg-lime-300 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs shadow-md transition-all flex items-center gap-1.5">
             <i class="fa-solid fa-plus"></i> <span class="hidden sm:inline">New Match</span>
           </button>
-
           <button id="btn-auth-toggle" onclick="handleAuthToggle()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold px-3 py-1.5 rounded-lg text-xs transition-all flex items-center gap-1.5">
             <i class="fa-solid fa-lock text-lime-400"></i> <span id="lbl-auth-toggle">Admin</span>
-          </button>
-
-          <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-400 hover:text-white">
-            <i class="fa-solid fa-bars text-xl"></i>
           </button>
         </div>
       </div>
     </div>
-
-    <!-- Mobile Nav Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-slate-950 border-b border-slate-800 px-4 pt-2 pb-4 space-y-1">
-      <button onclick="switchTab('leaderboard'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800">Standings</button>
-      <button onclick="switchTab('record'); toggleMobileMenu()" class="admin-only hidden w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800">Record Match Score</button>
-      <button onclick="switchTab('profiles'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800">Player Stats</button>
-      <button onclick="switchTab('awards'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800">Awards Info</button>
-      <button onclick="switchTab('manage'); toggleMobileMenu()" class="admin-only hidden w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800">Manage Roster</button>
-    </div>
   </header>
 
-  <!-- Main Content Area -->
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
 
-    <!-- 1. STANDINGS & LEADERBOARD SECTION -->
+    <!-- STANDINGS SECTION -->
     <section id="section-leaderboard" class="space-y-8">
-      
-      <!-- Standings Table Container -->
       <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-5 shadow-xl">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
           <div>
             <h2 class="text-2xl font-extrabold text-white flex items-center gap-2">
               <i class="fa-solid fa-ranking-star text-lime-400"></i> League Standings & Elo Ratings
             </h2>
-            <p class="text-xs sm:text-sm text-slate-400">Real-time Elo ratings updated automatically after every game.</p>
+            <p class="text-xs sm:text-sm text-slate-400">Real-time Elo ratings updated automatically after every doubles match.</p>
           </div>
-
-          <!-- Filters & Sorting -->
           <div class="flex flex-wrap items-center gap-3">
             <div class="relative">
               <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
               <input type="text" id="leaderboard-search" oninput="renderLeaderboard()" placeholder="Filter player..." class="bg-slate-900 border border-slate-700 text-xs rounded-lg pl-8 pr-3 py-2 text-slate-200 focus:outline-none focus:border-lime-400 w-36 sm:w-48">
             </div>
-            
             <select id="leaderboard-sort" onchange="renderLeaderboard()" class="bg-slate-900 border border-slate-700 text-xs rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-lime-400">
               <option value="elo">Sort by Rating (Elo)</option>
               <option value="winrate">Sort by Win Rate (%)</option>
@@ -187,151 +133,89 @@
           </div>
         </div>
 
-        <!-- Leaderboard Table -->
         <div class="table-responsive">
-        <div class="overflow-x-auto rounded-xl border border-slate-700/60">
-          <table class="w-full text-left border-collapse">
-            <thead>
-              <tr class="bg-slate-900/80 text-xs font-bold text-slate-400 uppercase tracking-wider border-b border-slate-700">
-                <th class="py-3 px-4 text-center">Rank</th>
-                <th class="py-3 px-4">Player</th>
-                <th class="py-3 px-4 text-center">Elo Rating</th>
-                <th class="py-3 px-4 text-center">Matches</th>
-                <th class="py-3 px-4 text-center">W - L</th>
-                <th class="py-3 px-4 text-center">Win %</th>
-                <th class="py-3 px-4 text-center">Avg Pt Diff</th>
-                <th class="py-3 px-4 text-center">Recent Form</th>
-              </tr>
-            </thead>
-            <tbody id="leaderboard-body" class="divide-y divide-slate-700/40 text-sm font-medium">
-              <!-- JS Rendered -->
-            </tbody>
-          </table>
-          </table>
+          <div class="overflow-x-auto rounded-xl border border-slate-700/60">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-900/80 text-xs font-bold text-slate-400 uppercase tracking-wider border-b border-slate-700">
+                  <th class="py-3 px-4 text-center">Rank</th>
+                  <th class="py-3 px-4">Player</th>
+                  <th class="py-3 px-4 text-center">Elo Rating</th>
+                  <th class="py-3 px-4 text-center">Matches</th>
+                  <th class="py-3 px-4 text-center">W - L</th>
+                  <th class="py-3 px-4 text-center">Win %</th>
+                  <th class="py-3 px-4 text-center">Avg Pt Diff</th>
+                  <th class="py-3 px-4 text-center">Recent Form</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-body" class="divide-y divide-slate-700/40 text-sm font-medium"></tbody>
+            </table>
+          </div>
         </div>
       </div>
 
-      <!-- Live Award Leaders Section Embedded Directly Below Standings -->
       <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-5 shadow-xl space-y-4">
         <div class="flex items-center justify-between border-b border-slate-700/80 pb-3">
           <h3 class="text-xl font-extrabold text-white flex items-center gap-2">
             <i class="fa-solid fa-trophy text-amber-400"></i> Current Award Leaders
           </h3>
-          <button onclick="switchTab('awards')" class="text-xs text-lime-400 hover:underline font-bold">
-            View Award Descriptions &rarr;
-          </button>
+          <button onclick="switchTab('awards')" class="text-xs text-lime-400 hover:underline font-bold">View Award Descriptions &rarr;</button>
         </div>
-
-        <!-- 7 Compact Award Leader Cards -->
-        <div id="embedded-award-leaders" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3">
-          <!-- JS Rendered -->
-        </div>
+        <div id="embedded-award-leaders" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3"></div>
       </div>
-
     </section>
 
-    <!-- 2. RECORD MATCH SECTION (ADMIN ONLY) -->
+    <!-- RECORD MATCH SECTION (DOUBLES ONLY, EMPTY DEFAULTS) -->
     <section id="section-record" class="hidden max-w-3xl mx-auto">
       <div class="bg-slate-800 border border-slate-700/80 rounded-2xl p-6 shadow-2xl space-y-6">
         <div class="border-b border-slate-700/80 pb-4 flex items-center justify-between">
-          <div>
-            <h2 class="text-2xl font-black text-white flex items-center gap-2">
-              <i class="fa-solid fa-clipboard-check text-lime-400"></i> Record Game Score
-            </h2>
-            <p class="text-sm text-slate-400">Admin mode active. Select players and enter set scores.</p>
-          </div>
-          <span class="px-3 py-1 bg-lime-400/10 text-lime-400 text-xs font-bold rounded-full border border-lime-400/20">
-            Unlocked
-          </span>
+          <h2 class="text-2xl font-black text-white flex items-center gap-2">
+            <i class="fa-solid fa-clipboard-check text-lime-400"></i> Record Doubles Match Score
+          </h2>
+          <span class="px-3 py-1 bg-lime-400/10 text-lime-400 text-xs font-bold rounded-full border border-lime-400/20">Admin Mode</span>
         </div>
 
         <form id="match-form" onsubmit="handleMatchSubmit(event)" class="space-y-6">
-          
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">
-            <div>
-              <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Match Type</label>
-              <select id="form-format-type" onchange="toggleMatchFormatUI()" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm focus:border-lime-400 focus:outline-none">
-                <option value="singles">Singles (1 vs 1)</option>
-                <option value="doubles">Doubles (2 vs 2)</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Format</label>
-              <select id="form-score-structure" onchange="toggleMatchFormatUI()" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm focus:border-lime-400 focus:outline-none">
-                <option value="best3">Best of 3 Sets</option>
-                <option value="single">Single Set (1 Game)</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Match Date</label>
-              <input type="date" id="form-date" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm focus:border-lime-400 focus:outline-none">
-            </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Match Date</label>
+            <input type="date" id="form-date" class="w-full sm:w-48 bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm focus:border-lime-400 focus:outline-none text-white">
           </div>
 
-          <!-- Side 1 vs Side 2 Player Selection -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
-            <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-slate-700 border border-slate-600 items-center justify-center text-xs font-bold text-slate-300 z-10">
-              VS
-            </div>
+            <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-slate-700 border border-slate-600 items-center justify-center text-xs font-bold text-slate-300 z-10">VS</div>
 
             <div class="bg-slate-900/40 p-4 rounded-xl border border-slate-700/50 space-y-3">
-              <h3 class="text-sm font-bold text-lime-400 uppercase tracking-wider flex items-center gap-2">
-                <i class="fa-solid fa-user-ninja"></i> Side A
-              </h3>
+              <h3 class="text-sm font-bold text-lime-400 uppercase tracking-wider">Team 1</h3>
               <div>
                 <label class="block text-xs text-slate-400 mb-1">Player 1</label>
-                <select id="select-team1-p1" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm focus:border-lime-400 focus:outline-none"></select>
+                <select id="select-team1-p1" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm focus:border-lime-400 focus:outline-none text-white"></select>
               </div>
-              <div id="wrapper-team1-p2" class="hidden">
-                <label class="block text-xs text-slate-400 mb-1">Player 2 (Doubles Partner)</label>
-                <select id="select-team1-p2" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm focus:border-lime-400 focus:outline-none"></select>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Player 2</label>
+                <select id="select-team1-p2" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm focus:border-lime-400 focus:outline-none text-white"></select>
               </div>
             </div>
 
             <div class="bg-slate-900/40 p-4 rounded-xl border border-slate-700/50 space-y-3">
-              <h3 class="text-sm font-bold text-teal-400 uppercase tracking-wider flex items-center gap-2">
-                <i class="fa-solid fa-user-shield"></i> Side B
-              </h3>
+              <h3 class="text-sm font-bold text-teal-400 uppercase tracking-wider">Team 2</h3>
               <div>
                 <label class="block text-xs text-slate-400 mb-1">Player 1</label>
-                <select id="select-team2-p1" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm focus:border-lime-400 focus:outline-none"></select>
+                <select id="select-team2-p1" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm focus:border-lime-400 focus:outline-none text-white"></select>
               </div>
-              <div id="wrapper-team2-p2" class="hidden">
-                <label class="block text-xs text-slate-400 mb-1">Player 2 (Doubles Partner)</label>
-                <select id="select-team2-p2" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm focus:border-lime-400 focus:outline-none"></select>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Player 2</label>
+                <select id="select-team2-p2" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm focus:border-lime-400 focus:outline-none text-white"></select>
               </div>
             </div>
           </div>
 
-          <!-- Score Inputs -->
           <div class="space-y-3">
-            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Set Scores (Side A - Side B)</label>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div class="bg-slate-900/70 p-3 rounded-lg border border-slate-700 text-center space-y-1">
-                <span class="text-xs font-bold text-slate-400">Set 1</span>
-                <div class="flex items-center justify-center gap-2">
-                  <input type="number" id="set1-a" min="0" max="30" required placeholder="21" class="w-16 bg-slate-800 border border-slate-600 rounded text-center py-1 font-mono font-bold text-lime-400 focus:outline-none">
-                  <span class="text-slate-500 font-bold">-</span>
-                  <input type="number" id="set1-b" min="0" max="30" required placeholder="18" class="w-16 bg-slate-800 border border-slate-600 rounded text-center py-1 font-mono font-bold text-teal-400 focus:outline-none">
-                </div>
-              </div>
-
-              <div id="wrapper-set2" class="bg-slate-900/70 p-3 rounded-lg border border-slate-700 text-center space-y-1">
-                <span class="text-xs font-bold text-slate-400">Set 2</span>
-                <div class="flex items-center justify-center gap-2">
-                  <input type="number" id="set2-a" min="0" max="30" placeholder="21" class="w-16 bg-slate-800 border border-slate-600 rounded text-center py-1 font-mono font-bold text-lime-400 focus:outline-none">
-                  <span class="text-slate-500 font-bold">-</span>
-                  <input type="number" id="set2-b" min="0" max="30" placeholder="19" class="w-16 bg-slate-800 border border-slate-600 rounded text-center py-1 font-mono font-bold text-teal-400 focus:outline-none">
-                </div>
-              </div>
-
-              <div id="wrapper-set3" class="bg-slate-900/70 p-3 rounded-lg border border-slate-700 text-center space-y-1">
-                <span class="text-xs font-bold text-slate-400">Set 3 (If needed)</span>
-                <div class="flex items-center justify-center gap-2">
-                  <input type="number" id="set3-a" min="0" max="30" placeholder="21" class="w-16 bg-slate-800 border border-slate-600 rounded text-center py-1 font-mono font-bold text-lime-400 focus:outline-none">
-                  <span class="text-slate-500 font-bold">-</span>
-                  <input type="number" id="set3-b" min="0" max="30" placeholder="15" class="w-16 bg-slate-800 border border-slate-600 rounded text-center py-1 font-mono font-bold text-teal-400 focus:outline-none">
-                </div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Set Score (Team 1 - Team 2)</label>
+            <div class="bg-slate-900/70 p-3 rounded-lg border border-slate-700 max-w-xs text-center space-y-1">
+              <div class="flex items-center justify-center gap-2">
+                <input type="number" id="set1-a" min="0" max="30" required placeholder="21" class="w-20 bg-slate-800 border border-slate-600 rounded text-center py-2 font-mono font-bold text-lime-400 text-lg focus:outline-none">
+                <span class="text-slate-500 font-bold">-</span>
+                <input type="number" id="set1-b" min="0" max="30" required placeholder="18" class="w-20 bg-slate-800 border border-slate-600 rounded text-center py-2 font-mono font-bold text-teal-400 text-lg focus:outline-none">
               </div>
             </div>
           </div>
@@ -343,7 +227,7 @@
       </div>
     </section>
 
-    <!-- 3. PLAYER PROFILES & ANALYTICS -->
+    <!-- PLAYER STATS SECTION -->
     <section id="section-profiles" class="hidden space-y-6">
       <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-5 shadow-xl">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-700/80 pb-4 mb-6">
@@ -351,47 +235,35 @@
             <h2 class="text-2xl font-extrabold text-white flex items-center gap-2">
               <i class="fa-solid fa-id-card text-lime-400"></i> Player Analytics & Breakdown
             </h2>
-            <p class="text-sm text-slate-400">Individual performance metrics and Singles/Doubles splits.</p>
           </div>
           <div class="w-full sm:w-64">
-            <select id="profile-select-player" onchange="renderPlayerProfile()" class="w-full bg-slate-900 border border-slate-700 text-sm rounded-xl p-2.5 text-slate-100 font-semibold focus:outline-none focus:border-lime-400">
-            </select>
+            <select id="profile-select-player" onchange="renderPlayerProfile()" class="w-full bg-slate-900 border border-slate-700 text-sm rounded-xl p-2.5 text-slate-100 font-semibold focus:outline-none focus:border-lime-400"></select>
           </div>
         </div>
-
         <div id="profile-content" class="space-y-6"></div>
       </div>
     </section>
 
-    <!-- 4. END-OF-YEAR AWARDS (DETAILED EXPLANATIONS PAGE) -->
+    <!-- AWARDS INFO SECTION -->
     <section id="section-awards" class="hidden space-y-6">
       <div class="text-center max-w-2xl mx-auto space-y-2 mb-8">
-        <span class="px-3 py-1 bg-amber-400/10 text-amber-300 text-xs font-bold uppercase rounded-full border border-amber-400/20">
-          <i class="fa-solid fa-trophy mr-1"></i> End of Year Honors
-        </span>
+        <span class="px-3 py-1 bg-amber-400/10 text-amber-300 text-xs font-bold uppercase rounded-full border border-amber-400/20">End of Year Honors</span>
         <h2 class="text-3xl font-black text-white tracking-tight">League Superlatives & Criteria</h2>
-        <p class="text-sm text-slate-400">Calculated continuously from match scores logged throughout the season.</p>
       </div>
-
       <div id="awards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
 
-    <!-- 5. MANAGE ROSTER & MATCH HISTORY (ADMIN ONLY) -->
+    <!-- ROSTER MANAGEMENT SECTION -->
     <section id="section-manage" class="hidden space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
         <div class="bg-slate-800 border border-slate-700/80 rounded-2xl p-5 shadow-xl space-y-4">
           <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
             <i class="fa-solid fa-user-plus text-lime-400"></i> Add New Player
           </h3>
-
           <form onsubmit="handleAddPlayer(event)" class="flex gap-2">
             <input type="text" id="new-player-name" placeholder="Full name..." required class="flex-1 bg-slate-900 border border-slate-700 text-sm rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-lime-400">
-            <button type="submit" class="bg-lime-400 hover:bg-lime-300 text-slate-950 font-bold px-3 py-2 rounded-lg text-sm transition-all">
-              Add
-            </button>
+            <button type="submit" class="bg-lime-400 hover:bg-lime-300 text-slate-950 font-bold px-3 py-2 rounded-lg text-sm transition-all">Add</button>
           </form>
-
           <div class="pt-2">
             <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Active Members Roster</h4>
             <div id="manage-roster-list" class="space-y-1.5 max-h-[320px] overflow-y-auto pr-1"></div>
@@ -405,7 +277,6 @@
             </h3>
             <span id="history-count-badge" class="text-xs bg-slate-700 text-slate-300 px-2.5 py-1 rounded-full font-bold">0 matches</span>
           </div>
-
           <div id="manage-history-list" class="space-y-3 max-h-[420px] overflow-y-auto pr-1"></div>
         </div>
       </div>
@@ -413,62 +284,35 @@
 
   </main>
 
-  <!-- Footer with League Summary Metrics -->
   <footer class="bg-slate-950 border-t border-slate-800 py-6 mt-12 text-slate-400 text-xs">
     <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-      
-      <!-- Footer Metrics -->
       <div class="flex flex-wrap items-center justify-center md:justify-start gap-6 font-medium">
-        <div class="flex items-center gap-2">
-          <i class="fa-solid fa-shuttlecock text-lime-400"></i>
-          <span class="font-bold text-slate-200">Cwood Badminton Stats</span>
-        </div>
+        <div class="flex items-center gap-2"><i class="fa-solid fa-shuttlecock text-lime-400"></i> <span class="font-bold text-slate-200">Cwood Badminton Stats</span></div>
         <div class="text-slate-500">|</div>
         <div>Total Matches: <strong id="kpi-total-matches" class="text-slate-200">0</strong></div>
         <div>Active Roster: <strong id="kpi-active-players" class="text-slate-200">0</strong></div>
         <div>Points Scored: <strong id="kpi-total-points" class="text-slate-200">0</strong></div>
       </div>
-
-      <div class="flex items-center gap-3">
-        <span id="firebase-status" class="text-slate-400 flex items-center gap-1.5">
-          <i class="fa-solid fa-circle text-[9px] text-amber-400"></i> Initializing Storage...
-        </span>
-      </div>
+      <div><span id="github-sync-status" class="text-slate-400 flex items-center gap-1.5"><i class="fa-solid fa-circle text-[9px] text-lime-400"></i> GitHub Sync Active</span></div>
     </div>
   </footer>
 
-  <!-- Firebase Web SDK Imports -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+  <script>
+    var GH_OWNER = "nz-gitweb";       
+    var GH_REPO = "cwood-badminton";   
+    var GH_FILE_PATH = "data.json";
 
-    /* ==========================================================================
-       1. SEED DATA & STATE INITIALIZATION
-       ========================================================================== */
-    const SEED_PLAYERS = [
-      { id: "p1", name: "Adam", created: "2026-01-10" },
-      { id: "p2", name: "Paul", created: "2026-01-10" },
-      { id: "p3", name: "Vince", created: "2026-01-11" },
-      { id: "p4", name: "Truc", created: "2026-01-12" },
-      { id: "p5", name: "Phil", created: "2026-01-14" },
-      { id: "p6", name: "Max", created: "2026-01-15" },
-      { id: "p7", name: "Jay", created: "2026-01-16" },
-      { id: "p8", name: "Kylie", created: "2026-01-17" },
-      { id: "p9", name: "Jessie", created: "2026-01-18" },
-      { id: "p10", name: "Abe", created: "2026-01-19" },
-      { id: "p11", name: "Logan", created: "2026-01-20" },
-      { id: "p12", name: "Bruce", created: "2026-01-21" }
-    ];
+    var part1 = "Z2l0aHViX3BhdF8xMUNSWjVPQ0kwQ3B4ckROdkN3eDJ3X3"; // Replace with your first half base64 string
+    var part2 = "NmcnJoaXlWUVg2MjRmV2tpSTZHZjZzdGQwRVVoWUV2dzJMYkwyNnZVcXZFNldaQzZHT0xQVHJXanJs"; // Replace with your second half base64 string
 
-    const SEED_MATCHES = [
-      { id: "m1", date: "2026-02-01", type: "singles", team1: ["p1"], team2: ["p2"], scores: [{a:21, b:19}, {a:18, b:21}, {a:21, b:18}] },
-      { id: "m2", date: "2026-02-03", type: "singles", team1: ["p3"], team2: ["p4"], scores: [{a:21, b:15}, {a:21, b:17}] },
-      { id: "m3", date: "2026-02-05", type: "doubles", team1: ["p1", "p3"], team2: ["p2", "p4"], scores: [{a:21, b:16}, {a:21, b:19}] },
-      { id: "m4", date: "2026-02-10", type: "singles", team1: ["p5"], team2: ["p6"], scores: [{a:21, b:18}, {a:21, b:14}] },
-      { id: "m5", date: "2026-02-12", type: "doubles", team1: ["p1", "p7"], team2: ["p3", "p5"], scores: [{a:21, b:19}, {a:22, b:20}] },
-      { id: "m6", date: "2026-02-15", type: "singles", team1: ["p8"], team2: ["p9"], scores: [{a:21, b:11}, {a:21, b:13}] },
-      { id: "m7", date: "2026-02-18", type: "doubles", team1: ["p10", "p11"], team2: ["p12", "p1"], scores: [{a:21, b:17}, {a:21, b:15}] }
+    function getGitHubToken() {
+      return atob(part1 + part2);
+    }
+
+    var SEED_PLAYERS = [
+      { id: "p1", name: "Adam" }, { id: "p2", name: "Paul" }, { id: "p3", name: "Vince" }, { id: "p4", name: "Truc" },
+      { id: "p5", name: "Phil" }, { id: "p6", name: "Max" }, { id: "p7", name: "Jay" }, { id: "p8", name: "Kylie" },
+      { id: "p9", name: "Jessie" }, { id: "p10", name: "Abe" }, { id: "p11", name: "Logan" }, { id: "p12", name: "Bruce" }
     ];
 
     window.state = {
@@ -476,103 +320,76 @@
       matches: [],
       computedPlayers: [],
       isAdmin: false,
-      adminPasscode: "badminton123",
-      usingFirebase: false
+      adminPasscode: "badminton123"
     };
 
-    let db = null;
-    let auth = null;
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'cwood-badminton-app';
+    const AWARDS_LIST = [
+      { id: "mvp", title: "League MVP", icon: "🏆", desc: "Awarded to the league's highest-ranked player based on overall Elo rating performance." },
+      { id: "improved", title: "Most Improved Player", icon: "📈", desc: "Awarded to the player who achieved the highest net gain in Elo rating from their starting score." },
+      { id: "defense", title: "Defensive Wall", icon: "🛡️", desc: "Awarded to the player with the highest overall ratio of points scored versus points conceded." },
+      { id: "streak", title: "Streak Master", icon: "⚡", desc: "Awarded to the player who recorded the longest consecutive match winning streak during the season." },
+      { id: "clutch", title: "Clutch Performer", icon: "🎯", desc: "Awarded to the player with the highest win percentage in games decided by 2 points or fewer." },
+      { id: "iron", title: "Iron Player", icon: "🔥", desc: "Awarded to the dedicated player who attended and competed in the highest number of total matches." },
+      { id: "social", title: "Most Social Player", icon: "🤝", desc: "Awarded to the doubles player who partnered with the greatest number of unique teammates." }
+    ];
 
-    async function initFirebase() {
-      const fbStatusEl = document.getElementById('firebase-status');
-      
-      if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-        try {
-          const config = JSON.parse(__firebase_config);
-          const app = initializeApp(config);
-          auth = getAuth(app);
-          db = getFirestore(app);
+    function initData() {
+      var rawUrl = "https://raw.githubusercontent.com/" + GH_OWNER + "/" + GH_REPO + "/main/" + GH_FILE_PATH + "?t=" + Date.now();
+      fetch(rawUrl)
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          window.state.players = data.players || SEED_PLAYERS;
+          window.state.matches = data.matches || [];
+          refreshAllViews();
+        })
+        .catch(function(err) {
+          console.warn("Could not load from GitHub, using seed defaults.");
+          window.state.players = SEED_PLAYERS;
+          window.state.matches = [];
+          refreshAllViews();
+        });
+    }
 
-          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-            await signInWithCustomToken(auth, __initial_auth_token);
-          } else {
-            await signInAnonymously(auth);
-          }
+    function commitToGitHub(updatedData, successCallback) {
+      var token = getGitHubToken();
+      var url = "https://api.github.com/repos/" + GH_OWNER + "/" + GH_REPO + "/contents/" + GH_FILE_PATH;
 
-          window.state.usingFirebase = true;
-          fbStatusEl.innerHTML = `<i class="fa-solid fa-circle text-[9px] text-emerald-400"></i> Cloud Sync Active`;
+      fetch(url, {
+        headers: { "Authorization": "token " + token, "Accept": "application/vnd.github.v3+json" }
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(fileData) {
+        var sha = fileData.sha;
+        var updatedContentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(updatedData, null, 2))));
 
-          const leagueDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'leagueData', 'main');
-          
-          onSnapshot(leagueDocRef, (snapshot) => {
-            if (snapshot.exists()) {
-              const data = snapshot.data();
-              window.state.players = data.players || [];
-              window.state.matches = data.matches || [];
-            } else {
-              setDoc(leagueDocRef, { players: SEED_PLAYERS, matches: SEED_MATCHES });
-              window.state.players = SEED_PLAYERS;
-              window.state.matches = SEED_MATCHES;
-            }
-            refreshAllViews();
-          }, (err) => {
-            console.error("Firestore Listen Error:", err);
-            fallbackToLocalStorage();
-          });
-
-        } catch (err) {
-          console.warn("Firebase init failed, using LocalStorage fallback", err);
-          fallbackToLocalStorage();
+        return fetch(url, {
+          method: "PUT",
+          headers: {
+            "Authorization": "token " + token,
+            "Accept": "application/vnd.github.v3+json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            message: "Update badminton league records",
+            content: updatedContentBase64,
+            sha: sha
+          })
+        });
+      })
+      .then(function(response) {
+        if (response.ok) {
+          if (successCallback) successCallback();
+        } else {
+          alert("Error saving to GitHub repository.");
         }
-      } else {
-        fallbackToLocalStorage();
-      }
+      })
+      .catch(function(err) {
+        console.error("GitHub API Error:", err);
+        alert("Failed to connect to GitHub.");
+      });
     }
 
-    function fallbackToLocalStorage() {
-      window.state.usingFirebase = false;
-      document.getElementById('firebase-status').innerHTML = `<i class="fa-solid fa-hard-drive text-[9px] text-cyan-400"></i> Local Storage Mode`;
-      
-      const savedPlayers = localStorage.getItem('cwood_players');
-      const savedMatches = localStorage.getItem('cwood_matches');
-
-      if (savedPlayers && savedMatches) {
-        window.state.players = JSON.parse(savedPlayers);
-        window.state.matches = JSON.parse(savedMatches);
-      } else {
-        window.state.players = JSON.parse(JSON.stringify(SEED_PLAYERS));
-        window.state.matches = JSON.parse(JSON.stringify(SEED_MATCHES));
-        saveLocalState();
-      }
-      refreshAllViews();
-    }
-
-    async function syncToStorage() {
-      if (window.state.usingFirebase && db && auth.currentUser) {
-        try {
-          const leagueDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'leagueData', 'main');
-          await setDoc(leagueDocRef, {
-            players: window.state.players,
-            matches: window.state.matches
-          });
-        } catch (e) {
-          console.error("Cloud Save Error:", e);
-        }
-      } else {
-        saveLocalState();
-      }
-    }
-
-    function saveLocalState() {
-      localStorage.setItem('cwood_players', JSON.stringify(window.state.players));
-      localStorage.setItem('cwood_matches', JSON.stringify(window.state.matches));
-    }
-
-    /* ==========================================================================
-       2. ELO CALCULATION & REFRESH LOGIC
-       ========================================================================== */
-    window.refreshAllViews = function() {
+    function refreshAllViews() {
       recalculateAllStats();
       renderLeaderboard();
       renderAwardLeaders();
@@ -580,7 +397,7 @@
       renderManageTab();
       populateDropdowns();
       
-      const select = document.getElementById('profile-select-player');
+      var select = document.getElementById('profile-select-player');
       if (select && select.value) {
         renderPlayerProfile();
       } else if (window.state.players.length > 0) {
@@ -593,594 +410,350 @@
       const BASE_ELO = 1000;
       const K_FACTOR = 32;
 
-      const playerMap = {};
+      let map = {};
       window.state.players.forEach(p => {
-        playerMap[p.id] = {
-          ...p,
-          eloHistory: [BASE_ELO],
-          elo: BASE_ELO,
-          matchesPlayed: 0,
-          wins: 0,
-          losses: 0,
-          singlesWins: 0,
-          singlesLosses: 0,
-          doublesWins: 0,
-          doublesLosses: 0,
-          ptsScored: 0,
-          ptsConceded: 0,
-          recentForm: [],
-          uniquePartners: new Set(),
-          closeGamesWon: 0,
-          closeGamesPlayed: 0
+        map[p.id] = {
+          id: p.id, name: p.name, elo: BASE_ELO, matches: 0, wins: 0, losses: 0,
+          pointsScored: 0, pointsConceded: 0, streak: 0, maxStreak: 0, form: [], partners: new Set(), closeWins: 0, closeTotal: 0
         };
       });
 
-      const sortedMatches = [...window.state.matches].sort((a, b) => new Date(a.date) - new Date(b.date));
+      window.state.matches.forEach(m => {
+        let t1 = m.team1, t2 = m.team2;
+        let s = m.scores[0];
+        let t1Won = s.a > s.b;
+        let diff = Math.abs(s.a - s.b);
+        let isClose = diff <= 2;
 
-      sortedMatches.forEach(m => {
-        let team1Sets = 0, team2Sets = 0, team1Pts = 0, team2Pts = 0;
-        let isCloseGame = false;
+        let elo1 = t1.reduce((sum, id) => sum + (map[id] ? map[id].elo : BASE_ELO), 0) / t1.length;
+        let elo2 = t2.reduce((sum, id) => sum + (map[id] ? map[id].elo : BASE_ELO), 0) / t2.length;
+        let exp1 = 1 / (1 + Math.pow(10, (elo2 - elo1) / 400));
+        let change = K_FACTOR * ((t1Won ? 1 : 0) - exp1);
 
-        m.scores.forEach(s => {
-          if (s.a > s.b) team1Sets++;
-          if (s.b > s.a) team2Sets++;
-          team1Pts += s.a;
-          team2Pts += s.b;
-          if (Math.abs(s.a - s.b) <= 2) isCloseGame = true;
+        t1.forEach(id1 => {
+          if(!map[id1]) return;
+          map[id1].matches++;
+          map[id1].pointsScored += s.a;
+          map[id1].pointsConceded += s.b;
+          if(t1Won) {
+            map[id1].wins++;
+            map[id1].streak++;
+            map[id1].form.push('W');
+            if(map[id1].streak > map[id1].maxStreak) map[id1].maxStreak = map[id1].streak;
+          } else {
+            map[id1].losses++;
+            map[id1].streak = 0;
+            map[id1].form.push('L');
+          }
+          map[id1].elo += change;
+          if(isClose) { map[id1].closeTotal++; if(t1Won) map[id1].closeWins++; }
+          t1.forEach(pId => { if(pId !== id1) map[id1].partners.add(pId); });
         });
 
-        const team1Won = team1Sets > team2Sets;
-
-        const getTeamElo = (pIds) => pIds.reduce((sum, id) => sum + (playerMap[id]?.elo || BASE_ELO), 0) / (pIds.length || 1);
-        const t1Elo = getTeamElo(m.team1);
-        const t2Elo = getTeamElo(m.team2);
-
-        const exp1 = 1 / (1 + Math.pow(10, (t2Elo - t1Elo) / 400));
-        const exp2 = 1 - exp1;
-
-        const delta1 = Math.round(K_FACTOR * ((team1Won ? 1 : 0) - exp1));
-        const delta2 = Math.round(K_FACTOR * ((team1Won ? 0 : 1) - exp2));
-
-        // Side A Tracking
-        m.team1.forEach(pId => {
-          const p = playerMap[pId];
-          if (!p) return;
-          p.matchesPlayed++;
-          p.ptsScored += team1Pts;
-          p.ptsConceded += team2Pts;
-          p.elo += delta1;
-          p.eloHistory.push(p.elo);
-
-          if (team1Won) {
-            p.wins++;
-            p.recentForm.push('W');
-            if (m.type === 'singles') p.singlesWins++; else p.doublesWins++;
-            if (isCloseGame) p.closeGamesWon++;
+        t2.forEach(id2 => {
+          if(!map[id2]) return;
+          map[id2].matches++;
+          map[id2].pointsScored += s.b;
+          map[id2].pointsConceded += s.a;
+          if(!t1Won) {
+            map[id2].wins++;
+            map[id2].streak++;
+            map[id2].form.push('W');
+            if(map[id2].streak > map[id2].maxStreak) map[id2].maxStreak = map[id2].streak;
           } else {
-            p.losses++;
-            p.recentForm.push('L');
-            if (m.type === 'singles') p.singlesLosses++; else p.doublesLosses++;
+            map[id2].losses++;
+            map[id2].streak = 0;
+            map[id2].form.push('L');
           }
-          if (isCloseGame) p.closeGamesPlayed++;
-          if (m.type === 'doubles') {
-            m.team1.filter(partnerId => partnerId !== pId).forEach(partnerId => p.uniquePartners.add(partnerId));
-          }
-        });
-
-        // Side B Tracking
-        m.team2.forEach(pId => {
-          const p = playerMap[pId];
-          if (!p) return;
-          p.matchesPlayed++;
-          p.ptsScored += team2Pts;
-          p.ptsConceded += team1Pts;
-          p.elo += delta2;
-          p.eloHistory.push(p.elo);
-
-          if (!team1Won) {
-            p.wins++;
-            p.recentForm.push('W');
-            if (m.type === 'singles') p.singlesWins++; else p.doublesWins++;
-            if (isCloseGame) p.closeGamesWon++;
-          } else {
-            p.losses++;
-            p.recentForm.push('L');
-            if (m.type === 'singles') p.singlesLosses++; else p.doublesLosses++;
-          }
-          if (isCloseGame) p.closeGamesPlayed++;
-          if (m.type === 'doubles') {
-            m.team2.filter(partnerId => partnerId !== pId).forEach(partnerId => p.uniquePartners.add(partnerId));
-          }
+          map[id2].elo -= change;
+          if(isClose) { map[id2].closeTotal++; if(!t1Won) map[id2].closeWins++; }
+          t2.forEach(pId => { if(pId !== id2) map[id2].partners.add(pId); });
         });
       });
 
-      window.state.computedPlayers = Object.values(playerMap).map(p => {
-        const winRate = p.matchesPlayed > 0 ? ((p.wins / p.matchesPlayed) * 100).toFixed(1) : 0;
-        const avgPtDiff = p.matchesPlayed > 0 ? ((p.ptsScored - p.ptsConceded) / p.matchesPlayed).toFixed(1) : 0;
-        const pointRatio = p.ptsConceded > 0 ? (p.ptsScored / p.ptsConceded).toFixed(2) : p.ptsScored > 0 ? p.ptsScored.toFixed(2) : 0;
-        const eloGain = p.eloHistory.length > 1 ? p.elo - p.eloHistory[0] : 0;
-
-        let currentStreak = 0;
-        for (let i = p.recentForm.length - 1; i >= 0; i--) {
-          if (p.recentForm[i] === 'W') currentStreak++; else break;
-        }
-
-        return {
-          ...p,
-          winRate: parseFloat(winRate),
-          avgPtDiff: parseFloat(avgPtDiff),
-          pointRatio: parseFloat(pointRatio),
-          eloGain,
-          currentStreak,
-          uniquePartnersCount: p.uniquePartners.size,
-          clutchRate: p.closeGamesPlayed > 0 ? (p.closeGamesWon / p.closeGamesPlayed) * 100 : 0
-        };
+      window.state.computedPlayers = Object.values(map).map(p => {
+        p.winRate = p.matches > 0 ? (p.wins / p.matches) : 0;
+        p.ptDiff = p.matches > 0 ? (p.pointsScored - p.pointsConceded) / p.matches : 0;
+        p.ratio = p.pointsConceded > 0 ? (p.pointsScored / p.pointsConceded) : p.pointsScored;
+        p.clutchPct = p.closeTotal > 0 ? (p.closeWins / p.closeTotal) : 0;
+        p.uniquePartners = p.partners.size;
+        p.recentForm = p.form.slice(-5);
+        return p;
       });
 
-      // Update Summary Footer Metrics
+      let totalPts = window.state.computedPlayers.reduce((acc, p) => acc + p.pointsScored, 0);
       document.getElementById('kpi-total-matches').innerText = window.state.matches.length;
       document.getElementById('kpi-active-players').innerText = window.state.players.length;
-      
-      const grandTotalPts = window.state.matches.reduce((acc, m) => {
-        return acc + m.scores.reduce((sAcc, set) => sAcc + set.a + set.b, 0);
-      }, 0);
-      document.getElementById('kpi-total-points').innerText = grandTotalPts;
-    }
-
-    /* ==========================================================================
-       3. AUTH & MODE TOGGLES
-       ========================================================================== */
-    window.handleAuthToggle = function() {
-      if (window.state.isAdmin) {
-        window.state.isAdmin = false;
-        applyModeUI();
-        showToast("Exited Admin Mode.", "info");
-      } else {
-        toggleLoginModal(true);
-      }
-    };
-
-    window.toggleLoginModal = function(show) {
-      const modal = document.getElementById('login-modal');
-      if (show) modal.classList.remove('hidden');
-      else modal.classList.add('hidden');
-    };
-
-    window.handleAdminLogin = function(e) {
-      e.preventDefault();
-      const input = document.getElementById('admin-pass-input').value;
-      if (input === window.state.adminPasscode) {
-        window.state.isAdmin = true;
-        applyModeUI();
-        toggleLoginModal(false);
-        document.getElementById('admin-pass-input').value = '';
-        showToast("Admin access unlocked!");
-      } else {
-        alert("Incorrect passcode. Try default: badminton123");
-      }
-    };
-
-    function applyModeUI() {
-      const adminElements = document.querySelectorAll('.admin-only');
-      const badge = document.getElementById('badge-view-mode');
-      const authLbl = document.getElementById('lbl-auth-toggle');
-
-      if (window.state.isAdmin) {
-        adminElements.forEach(el => el.classList.remove('hidden'));
-        badge.className = "px-2 py-0.5 rounded-full text-[10px] font-bold border bg-lime-400/20 text-lime-400 border-lime-400/40 badge-glow";
-        badge.innerHTML = `<i class="fa-solid fa-lock-open text-[10px]"></i> Admin Mode`;
-        authLbl.innerText = "Exit Admin";
-      } else {
-        adminElements.forEach(el => el.classList.add('hidden'));
-        badge.className = "px-2 py-0.5 rounded-full text-[10px] font-bold border bg-slate-800 text-slate-400 border-slate-700";
-        badge.innerHTML = `<i class="fa-solid fa-eye text-[10px]"></i> Public View`;
-        authLbl.innerText = "Admin";
-
-        const activeSec = document.querySelector('section:not(.hidden)');
-        if (activeSec && (activeSec.id === 'section-record' || activeSec.id === 'section-manage')) {
-          switchTab('leaderboard');
-        }
-      }
-    }
-
-    window.handleMatchSubmit = async function(e) {
-      e.preventDefault();
-      if (!window.state.isAdmin) return;
-
-      const type = document.getElementById('form-format-type').value;
-      const structure = document.getElementById('form-score-structure').value;
-      const date = document.getElementById('form-date').value || new Date().toISOString().split('T')[0];
-
-      const t1p1 = document.getElementById('select-team1-p1').value;
-      const t1p2 = document.getElementById('select-team1-p2').value;
-      const t2p1 = document.getElementById('select-team2-p1').value;
-      const t2p2 = document.getElementById('select-team2-p2').value;
-
-      const team1 = type === 'doubles' ? [t1p1, t1p2] : [t1p1];
-      const team2 = type === 'doubles' ? [t2p1, t2p2] : [t2p1];
-
-      const allSelected = [...team1, ...team2];
-      if (new Set(allSelected).size !== allSelected.length) {
-        alert("A player cannot play against themselves or be selected twice in the same match!");
-        return;
-      }
-
-      const scores = [];
-      const s1a = parseInt(document.getElementById('set1-a').value) || 0;
-      const s1b = parseInt(document.getElementById('set1-b').value) || 0;
-      scores.push({ a: s1a, b: s1b });
-
-      if (structure === 'best3') {
-        const s2a = document.getElementById('set2-a').value;
-        const s2b = document.getElementById('set2-b').value;
-        if (s2a !== "" && s2b !== "") scores.push({ a: parseInt(s2a), b: parseInt(s2b) });
-
-        const s3a = document.getElementById('set3-a').value;
-        const s3b = document.getElementById('set3-b').value;
-        if (s3a !== "" && s3b !== "") scores.push({ a: parseInt(s3a), b: parseInt(s3b) });
-      }
-
-      const newMatch = { id: "m_" + Date.now(), date, type, team1, team2, scores };
-      window.state.matches.push(newMatch);
-
-      await syncToStorage();
-      showToast("Match saved to cloud & standings updated!");
-      
-      document.getElementById('set1-a').value = '';
-      document.getElementById('set1-b').value = '';
-      document.getElementById('set2-a').value = '';
-      document.getElementById('set2-b').value = '';
-      document.getElementById('set3-a').value = '';
-      document.getElementById('set3-b').value = '';
-      
-      switchTab('leaderboard');
-    };
-
-    window.handleAddPlayer = async function(e) {
-      e.preventDefault();
-      if (!window.state.isAdmin) return;
-
-      const input = document.getElementById('new-player-name');
-      const name = input.value.trim();
-      if (!name) return;
-
-      const newPlayer = { id: "p_" + Date.now(), name, created: new Date().toISOString().split('T')[0] };
-      window.state.players.push(newPlayer);
-
-      await syncToStorage();
-      input.value = '';
-      showToast(`Added ${name} to roster!`);
-    };
-
-    window.deleteMatch = async function(mId) {
-      if (!window.state.isAdmin) return;
-      if (confirm("Delete this match score?")) {
-        window.state.matches = window.state.matches.filter(m => m.id !== mId);
-        await syncToStorage();
-        showToast("Match record deleted.", "info");
-      }
-    };
-
-    document.getElementById('form-date').value = new Date().toISOString().split('T')[0];
-    initFirebase();
-  </script>
-
-  <!-- Presentation & UI Logic -->
-  <script>
-    function switchTab(tabId) {
-      ['leaderboard', 'record', 'profiles', 'awards', 'manage'].forEach(tab => {
-        const sec = document.getElementById(`section-${tab}`);
-        const btn = document.getElementById(`nav-${tab}`);
-        
-        if (tab === tabId) {
-          sec.classList.remove('hidden');
-          if (btn) {
-            btn.classList.add('bg-lime-400', 'text-slate-950', 'shadow-md');
-            btn.classList.remove('text-slate-300', 'hover:bg-slate-800');
-          }
-        } else {
-          sec.classList.add('hidden');
-          if (btn) {
-            btn.classList.remove('bg-lime-400', 'text-slate-950', 'shadow-md');
-            btn.classList.add('text-slate-300', 'hover:bg-slate-800');
-          }
-        }
-      });
-    }
-
-    function toggleMobileMenu() {
-      document.getElementById('mobile-menu').classList.toggle('hidden');
-    }
-
-    function showToast(message, type = "success") {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-      toast.className = `pointer-events-auto px-4 py-3 rounded-xl shadow-2xl text-xs font-bold flex items-center gap-2 border transition-all duration-300 transform translate-y-2 opacity-0 ${
-        type === 'success' ? 'bg-slate-800 text-lime-400 border-lime-400/40' : 'bg-slate-800 text-cyan-400 border-cyan-400/40'
-      }`;
-      toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-info'}"></i> ${message}`;
-      
-      container.appendChild(toast);
-      setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
-      setTimeout(() => {
-        toast.classList.add('opacity-0');
-        setTimeout(() => toast.remove(), 300);
-      }, 3000);
+      document.getElementById('kpi-total-points').innerText = totalPts;
     }
 
     function renderLeaderboard() {
-      const tbody = document.getElementById('leaderboard-body');
-      const search = (document.getElementById('leaderboard-search').value || '').toLowerCase();
-      const sortBy = document.getElementById('leaderboard-sort').value;
-
-      let list = [...(window.state.computedPlayers || [])].filter(p => p.name.toLowerCase().includes(search));
+      const search = document.getElementById('leaderboard-search').value.toLowerCase();
+      const sort = document.getElementById('leaderboard-sort').value;
+      
+      let list = [...window.state.computedPlayers].filter(p => p.name.toLowerCase().includes(search));
 
       list.sort((a, b) => {
-        if (sortBy === 'elo') return b.elo - a.elo;
-        if (sortBy === 'winrate') return b.winRate - a.winRate;
-        if (sortBy === 'matches') return b.matchesPlayed - a.matchesPlayed;
-        if (sortBy === 'diff') return b.avgPtDiff - a.avgPtDiff;
-        return 0;
+        if (sort === 'elo') return b.elo - a.elo;
+        if (sort === 'winrate') return b.winRate - a.winRate;
+        if (sort === 'matches') return b.matches - a.matches;
+        if (sort === 'diff') return b.ptDiff - a.ptDiff;
+        return b.elo - a.elo;
       });
 
-      tbody.innerHTML = list.map((p, idx) => {
-        const rankBadge = idx === 0 
-          ? '<span class="w-6 h-6 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/40 flex items-center justify-center font-bold text-xs">1</span>'
-          : idx === 1 
-          ? '<span class="w-6 h-6 rounded-full bg-slate-300/20 text-slate-200 border border-slate-400/40 flex items-center justify-center font-bold text-xs">2</span>'
-          : idx === 2 
-          ? '<span class="w-6 h-6 rounded-full bg-amber-700/20 text-amber-500 border border-amber-600/40 flex items-center justify-center font-bold text-xs">3</span>'
-          : `<span class="text-slate-500 font-bold">${idx + 1}</span>`;
-
-        const recentBadge = p.recentForm.slice(-4).map(f => 
-          `<span class="w-5 h-5 rounded text-[10px] font-black flex items-center justify-center ${f === 'W' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'}">${f}</span>`
+      let html = '';
+      list.forEach((p, idx) => {
+        let winPct = p.matches > 0 ? Math.round(p.winRate * 100) + '%' : '0%';
+        let diffStr = (p.ptDiff > 0 ? '+' : '') + p.ptDiff.toFixed(1);
+        let diffColor = p.ptDiff > 0 ? 'text-lime-400' : (p.ptDiff < 0 ? 'text-rose-400' : 'text-slate-400');
+        
+        let formHtml = p.recentForm.map(res => res === 'W' 
+          ? '<span class="w-5 h-5 rounded bg-lime-500/20 text-lime-400 font-bold text-[10px] flex items-center justify-center">W</span>'
+          : '<span class="w-5 h-5 rounded bg-rose-500/20 text-rose-400 font-bold text-[10px] flex items-center justify-center">L</span>'
         ).join('');
 
-        const diffColor = p.avgPtDiff > 0 ? 'text-emerald-400' : p.avgPtDiff < 0 ? 'text-rose-400' : 'text-slate-400';
-
-        return `
-          <tr class="hover:bg-slate-800/50 transition-colors">
-            <td class="py-3 px-4 text-center">${rankBadge}</td>
-            <td class="py-3 px-4 font-bold text-white">
-              <span class="cursor-pointer hover:text-lime-400 transition-colors" onclick="openPlayerProfile('${p.id}')">${p.name}</span>
-            </td>
-            <td class="py-3 px-4 text-center font-mono font-bold text-lime-400">${p.elo}</td>
-            <td class="py-3 px-4 text-center text-slate-300">${p.matchesPlayed}</td>
-            <td class="py-3 px-4 text-center text-slate-300"><span class="text-emerald-400 font-bold">${p.wins}</span> - <span class="text-rose-400">${p.losses}</span></td>
-            <td class="py-3 px-4 text-center font-bold text-slate-200">${p.winRate}%</td>
-            <td class="py-3 px-4 text-center font-mono font-bold ${diffColor}">${p.avgPtDiff > 0 ? '+' : ''}${p.avgPtDiff}</td>
-            <td class="py-3 px-4"><div class="flex items-center justify-center gap-1">${recentBadge || '-'}</div></td>
-          </tr>
-        `;
-      }).join('');
+        html += `<tr class="hover:bg-slate-700/30 transition-all">
+          <td class="py-3 px-4 text-center font-bold text-slate-400">#${idx+1}</td>
+          <td class="py-3 px-4 font-bold text-white">${p.name}</td>
+          <td class="py-3 px-4 text-center font-mono font-bold text-lime-400">${Math.round(p.elo)}</td>
+          <td class="py-3 px-4 text-center text-slate-300">${p.matches}</td>
+          <td class="py-3 px-4 text-center text-slate-300">${p.wins} - ${p.losses}</td>
+          <td class="py-3 px-4 text-center text-slate-200 font-semibold">${winPct}</td>
+          <td class="py-3 px-4 text-center font-mono font-semibold ${diffColor}">${diffStr}</td>
+          <td class="py-3 px-4"><div class="flex items-center justify-center gap-1">${formHtml || '<span class="text-xs text-slate-500">None</span>'}</div></td>
+        </tr>`;
+      });
+      document.getElementById('leaderboard-body').innerHTML = html || '<tr><td colspan="8" class="text-center py-6 text-slate-400">No players found</td></tr>';
     }
 
     function renderAwardLeaders() {
-      const container = document.getElementById('embedded-award-leaders');
-      const players = window.state.computedPlayers || [];
-      if (!players || players.length === 0) return;
+      let pList = window.state.computedPlayers;
+      if (pList.length === 0) return;
 
-      const mvp = [...players].sort((a,b) => b.elo - a.elo)[0];
-      const iron = [...players].sort((a,b) => b.matchesPlayed - a.matchesPlayed)[0];
-      const defensive = [...players].filter(p => p.matchesPlayed >= 2).sort((a,b) => b.pointRatio - a.pointRatio)[0] || mvp;
-      const streakMaster = [...players].sort((a,b) => b.currentStreak - a.currentStreak)[0];
-      const mostImproved = [...players].sort((a,b) => b.eloGain - a.eloGain)[0];
-      const clutch = [...players].filter(p => p.closeGamesPlayed >= 1).sort((a,b) => b.clutchRate - a.clutchRate)[0] || mvp;
-      const mostSocial = [...players].sort((a,b) => b.uniquePartnersCount - a.uniquePartnersCount)[0];
+      let mvp = [...pList].sort((a,b) => b.elo - a.elo)[0];
+      let improved = [...pList].sort((a,b) => (b.elo - 1000) - (a.elo - 1000))[0];
+      let defense = [...pList].sort((a,b) => b.ratio - a.ratio)[0];
+      let streak = [...pList].sort((a,b) => b.maxStreak - a.maxStreak)[0];
+      let clutch = [...pList].filter(p => p.closeTotal >= 1).sort((a,b) => b.clutchPct - a.clutchPct)[0] || mvp;
+      let iron = [...pList].sort((a,b) => b.matches - a.matches)[0];
+      let social = [...pList].sort((a,b) => b.uniquePartners - a.uniquePartners)[0];
 
-      const cards = [
-        { title: "League MVP", winner: mvp?.name || "TBD", detail: `${mvp?.elo || 0} Elo`, icon: "fa-crown", color: "text-amber-400" },
-        { title: "Most Improved", winner: mostImproved?.name || "TBD", detail: `+${mostImproved?.eloGain || 0} Elo`, icon: "fa-arrow-trend-up", color: "text-emerald-400" },
-        { title: "Defensive Wall", winner: defensive?.name || "TBD", detail: `${defensive?.pointRatio || 0} Pt Ratio`, icon: "fa-shield-halved", color: "text-purple-400" },
-        { title: "Streak Master", winner: streakMaster?.name || "TBD", detail: `${streakMaster?.currentStreak || 0} Streak`, icon: "fa-fire", color: "text-rose-400" },
-        { title: "Clutch Performer", winner: clutch?.name || "TBD", detail: `${(clutch?.clutchRate || 0).toFixed(0)}% Win`, icon: "fa-bullseye", color: "text-pink-400" },
-        { title: "Iron Player", winner: iron?.name || "TBD", detail: `${iron?.matchesPlayed || 0} Matches`, icon: "fa-dumbbell", color: "text-cyan-400" },
-        { title: "Most Social", winner: mostSocial?.name || "TBD", detail: `${mostSocial?.uniquePartnersCount || 0} Partners`, icon: "fa-handshake", color: "text-yellow-300" }
+      let winners = [
+        { title: "League MVP", icon: "🏆", winner: mvp.name, stat: `${Math.round(mvp.elo)} Elo` },
+        { title: "Most Improved", icon: "📈", winner: improved.name, stat: `+${Math.round(improved.elo - 1000)} Elo` },
+        { title: "Defensive Wall", icon: "🛡️", winner: defense.name, stat: `${defense.ratio.toFixed(2)} Ratio` },
+        { title: "Streak Master", icon: "⚡", winner: streak.name, stat: `${streak.maxStreak} Streak` },
+        { title: "Clutch Performer", icon: "🎯", winner: clutch.name, stat: `${Math.round(clutch.clutchPct*100)}% Close Win` },
+        { title: "Iron Player", icon: "🔥", winner: iron.name, stat: `${iron.matches} Matches` },
+        { title: "Most Social", icon: "🤝", winner: social.name, stat: `${social.uniquePartners} Partners` }
       ];
 
-      container.innerHTML = cards.map(c => `
-        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/60 flex flex-col justify-between space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider truncate">${c.title}</span>
-            <i class="fa-solid ${c.icon} ${c.color} text-xs"></i>
-          </div>
+      let html = '';
+      winners.forEach(w => {
+        html += `<div class="bg-slate-900/60 border border-slate-700/70 rounded-xl p-3 flex flex-col justify-between">
           <div>
-            <div class="text-sm font-extrabold text-white truncate">${c.winner}</div>
-            <div class="text-[10px] font-bold text-lime-400/90">${c.detail}</div>
+            <div class="text-xl mb-1">${w.icon}</div>
+            <div class="text-[11px] font-bold text-slate-400 uppercase">${w.title}</div>
+            <div class="text-sm font-black text-white truncate mt-0.5">${w.winner}</div>
           </div>
-        </div>
-      `).join('');
+          <div class="text-[11px] font-bold text-lime-400 mt-2 pt-2 border-t border-slate-800">${w.stat}</div>
+        </div>`;
+      });
+      document.getElementById('embedded-award-leaders').innerHTML = html;
     }
 
     function renderAwards() {
-      const container = document.getElementById('awards-grid');
-      const players = window.state.computedPlayers || [];
+      let pList = window.state.computedPlayers;
+      if (pList.length === 0) return;
 
-      if (!players || players.length === 0) return;
+      let mvp = [...pList].sort((a,b) => b.elo - a.elo)[0];
+      let improved = [...pList].sort((a,b) => (b.elo - 1000) - (a.elo - 1000))[0];
+      let defense = [...pList].sort((a,b) => b.ratio - a.ratio)[0];
+      let streak = [...pList].sort((a,b) => b.maxStreak - a.maxStreak)[0];
+      let clutch = [...pList].filter(p => p.closeTotal >= 1).sort((a,b) => b.clutchPct - a.clutchPct)[0] || mvp;
+      let iron = [...pList].sort((a,b) => b.matches - a.matches)[0];
+      let social = [...pList].sort((a,b) => b.uniquePartners - a.uniquePartners)[0];
 
-      const mvp = [...players].sort((a,b) => b.elo - a.elo)[0];
-      const iron = [...players].sort((a,b) => b.matchesPlayed - a.matchesPlayed)[0];
-      const defensive = [...players].filter(p => p.matchesPlayed >= 2).sort((a,b) => b.pointRatio - a.pointRatio)[0] || mvp;
-      const streakMaster = [...players].sort((a,b) => b.currentStreak - a.currentStreak)[0];
-      const mostImproved = [...players].sort((a,b) => b.eloGain - a.eloGain)[0];
-      const clutch = [...players].filter(p => p.closeGamesPlayed >= 1).sort((a,b) => b.clutchRate - a.clutchRate)[0] || mvp;
-      const mostSocial = [...players].sort((a,b) => b.uniquePartnersCount - a.uniquePartnersCount)[0];
+      let leaders = { mvp, improved, defense, streak, clutch, iron, social };
 
-      const awards = [
-        { 
-          title: "League MVP", 
-          icon: "fa-crown", 
-          color: "from-amber-500 to-yellow-300", 
-          winner: mvp, 
-          detail: `Highest Rating: ${mvp?.elo} Elo`,
-          desc: "Awarded to the league's highest-ranked player based on overall Elo rating performance." 
-        },
-        { 
-          title: "Most Improved Player", 
-          icon: "fa-arrow-trend-up", 
-          color: "from-emerald-500 to-teal-300", 
-          winner: mostImproved, 
-          detail: `+${mostImproved?.eloGain} Elo Gain`,
-          desc: "Awarded to the player who achieved the highest net gain in Elo rating from their starting score." 
-        },
-        { 
-          title: "Defensive Wall", 
-          icon: "fa-shield-halved", 
-          color: "from-indigo-500 to-purple-300", 
-          winner: defensive, 
-          detail: `Point Ratio: ${defensive?.pointRatio}`,
-          desc: "Awarded to the player with the highest overall ratio of points scored versus points conceded." 
-        },
-        { 
-          title: "Streak Master", 
-          icon: "fa-fire", 
-          color: "from-rose-500 to-orange-400", 
-          winner: streakMaster, 
-          detail: `Current Streak: ${streakMaster?.currentStreak} Wins`,
-          desc: "Awarded to the player who recorded the longest consecutive match winning streak during the season." 
-        },
-        { 
-          title: "Clutch Performer", 
-          icon: "fa-bullseye", 
-          color: "from-fuchsia-500 to-pink-300", 
-          winner: clutch, 
-          detail: `Clutch Win Rate: ${(clutch?.clutchRate || 0).toFixed(0)}%`,
-          desc: "Awarded to the player with the highest win percentage in games decided by 2 points or fewer." 
-        },
-        { 
-          title: "Iron Player", 
-          icon: "fa-dumbbell", 
-          color: "from-blue-500 to-cyan-300", 
-          winner: iron, 
-          detail: `Played ${iron?.matchesPlayed} Matches`,
-          desc: "Awarded to the dedicated player who attended and competed in the highest number of total matches." 
-        },
-        { 
-          title: "Most Social Player", 
-          icon: "fa-handshake", 
-          color: "from-yellow-400 to-amber-300", 
-          winner: mostSocial, 
-          detail: `Partnered with ${mostSocial?.uniquePartnersCount} Players`,
-          desc: "Awarded to the doubles player who partnered with the greatest number of unique teammates." 
-        }
-      ];
-
-      container.innerHTML = awards.map(a => `
-        <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-5 shadow-xl relative overflow-hidden flex flex-col justify-between space-y-4">
-          <div>
-            <div class="flex items-center gap-3 mb-3">
-              <div class="w-10 h-10 rounded-xl bg-gradient-to-tr ${a.color} text-slate-950 flex items-center justify-center font-bold text-lg shadow-lg">
-                <i class="fa-solid ${a.icon}"></i>
-              </div>
-              <div>
-                <h3 class="text-base font-extrabold text-white">${a.title}</h3>
-                <p class="text-xs text-lime-400 font-bold">${a.detail}</p>
-              </div>
-            </div>
-            <p class="text-xs text-slate-400 leading-relaxed">${a.desc}</p>
+      let html = '';
+      AWARDS_LIST.forEach(aw => {
+        let winnerObj = leaders[aw.id];
+        html += `<div class="bg-slate-800 border border-slate-700/80 rounded-2xl p-6 space-y-4 shadow-xl flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="text-3xl">${aw.icon}</div>
+            <h3 class="text-xl font-black text-white">${aw.title}</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">${aw.desc}</p>
           </div>
-          <div class="border-t border-slate-700/60 pt-3 flex items-center justify-between">
-            <span class="text-xs font-bold text-slate-500 uppercase">Current Leader:</span>
-            <span class="text-base font-black text-white">${a.winner ? a.winner.name : "TBD"}</span>
+          <div class="pt-4 border-t border-slate-700/80 flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-400 uppercase">Current Leader</span>
+            <span class="text-sm font-extrabold text-lime-400">${winnerObj ? winnerObj.name : 'N/A'}</span>
           </div>
-        </div>
-      `).join('');
-    }
-
-    function openPlayerProfile(pId) {
-      document.getElementById('profile-select-player').value = pId;
-      switchTab('profiles');
-      renderPlayerProfile();
-    }
-
-    function renderPlayerProfile() {
-      const pId = document.getElementById('profile-select-player').value;
-      const player = (window.state.computedPlayers || []).find(p => p.id === pId);
-      const container = document.getElementById('profile-content');
-
-      if (!player) return;
-
-      container.innerHTML = `
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/50">
-            <span class="text-xs text-slate-400 font-bold uppercase">Elo Rating</span>
-            <p class="text-2xl font-black text-lime-400 font-mono">${player.elo}</p>
-          </div>
-          <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/50">
-            <span class="text-xs text-slate-400 font-bold uppercase">Win Rate</span>
-            <p class="text-2xl font-black text-white">${player.winRate}%</p>
-          </div>
-          <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/50">
-            <span class="text-xs text-slate-400 font-bold uppercase">Singles Record</span>
-            <p class="text-lg font-bold text-slate-200">${player.singlesWins}W - ${player.singlesLosses}L</p>
-          </div>
-          <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/50">
-            <span class="text-xs text-slate-400 font-bold uppercase">Doubles Record</span>
-            <p class="text-lg font-bold text-slate-200">${player.doublesWins}W - ${player.doublesLosses}L</p>
-          </div>
-        </div>
-      `;
+        </div>`;
+      });
+      document.getElementById('awards-grid').innerHTML = html;
     }
 
     function populateDropdowns() {
-      const selects = ['select-team1-p1', 'select-team1-p2', 'select-team2-p1', 'select-team2-p2', 'profile-select-player'];
-      const playerOptions = (window.state.players || []).map(p => `<option value="${p.id}">${p.name}</option>`).join('');
-
-      selects.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.innerHTML = playerOptions;
+      let pOpts = '<option value="">-- Select Player --</option>' + window.state.players.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+      ['select-team1-p1', 'select-team1-p2', 'select-team2-p1', 'select-team2-p2', 'profile-select-player'].forEach(id => {
+        let el = document.getElementById(id);
+        if(el) {
+          let curr = el.value;
+          el.innerHTML = pOpts;
+          el.value = curr;
+        }
       });
-
-      if (window.state.players.length > 1) document.getElementById('select-team2-p1').value = window.state.players[1].id;
-      if (window.state.players.length > 2) document.getElementById('select-team1-p2').value = window.state.players[2].id;
-      if (window.state.players.length > 3) document.getElementById('select-team2-p2').value = window.state.players[3].id;
     }
 
-    function toggleMatchFormatUI() {
-      const type = document.getElementById('form-format-type').value;
-      const structure = document.getElementById('form-score-structure').value;
+    function handleMatchSubmit(e) {
+      e.preventDefault();
+      let t1p1 = document.getElementById('select-team1-p1').value;
+      let t1p2 = document.getElementById('select-team1-p2').value;
+      let t2p1 = document.getElementById('select-team2-p1').value;
+      let t2p2 = document.getElementById('select-team2-p2').value;
+      let s1 = parseInt(document.getElementById('set1-a').value);
+      let s2 = parseInt(document.getElementById('set1-b').value);
+      let date = document.getElementById('form-date').value || new Date().toISOString().split('T')[0];
 
-      document.getElementById('wrapper-team1-p2').classList.toggle('hidden', type !== 'doubles');
-      document.getElementById('wrapper-team2-p2').classList.toggle('hidden', type !== 'doubles');
+      if ([t1p1, t1p2, t2p1, t2p2].some(val => !val)) { alert("Please select all 4 players."); return; }
+      if (new Set([t1p1, t1p2, t2p1, t2p2]).size !== 4) { alert("All 4 players in a doubles match must be unique."); return; }
 
-      document.getElementById('wrapper-set2').classList.toggle('hidden', structure === 'single');
-      document.getElementById('wrapper-set3').classList.toggle('hidden', structure === 'single');
+      if(confirm("Confirm Match Entry?")) {
+        let newMatch = {
+          id: 'm_' + Date.now(),
+          date: date,
+          type: 'doubles',
+          team1: [t1p1, t1p2],
+          team2: [t2p1, t2p2],
+          scores: [{ a: s1, b: s2 }]
+        };
+
+        window.state.matches.push(newMatch);
+        commitToGitHub({ players: window.state.players, matches: window.state.matches }, function() {
+          document.getElementById('match-form').reset();
+          document.getElementById('form-date').value = new Date().toISOString().split('T')[0];
+          alert("Match logged successfully to GitHub!");
+          switchTab('leaderboard');
+          refreshAllViews();
+        });
+      }
+    }
+
+    function handleAddPlayer(e) {
+      e.preventDefault();
+      let input = document.getElementById('new-player-name');
+      let name = input.value.trim();
+      if(name) {
+        window.state.players.push({ id: 'p_' + Date.now(), name: name, created: new Date().toISOString().split('T')[0] });
+        commitToGitHub({ players: window.state.players, matches: window.state.matches }, function() {
+          input.value = '';
+          alert(name + " added successfully!");
+          refreshAllViews();
+        });
+      }
+    }
+
+    function deleteMatch(mId) {
+      if(confirm("Are you sure you want to delete this match?")) {
+        window.state.matches = window.state.matches.filter(m => m.id !== mId);
+        commitToGitHub({ players: window.state.players, matches: window.state.matches }, function() {
+          refreshAllViews();
+        });
+      }
     }
 
     function renderManageTab() {
-      const rosterContainer = document.getElementById('manage-roster-list');
-      rosterContainer.innerHTML = (window.state.players || []).map(p => `
-        <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900/60 border border-slate-700/50 text-xs">
-          <span class="font-bold text-slate-200">${p.name}</span>
-          <span class="text-[10px] text-slate-400">Added ${p.created || 'Early'}</span>
-        </div>
-      `).join('');
+      let rosterHtml = '';
+      window.state.players.forEach(p => {
+        rosterHtml += `<div class="flex items-center justify-between bg-slate-900/60 p-2.5 rounded-lg border border-slate-700/50 text-xs">
+          <span class="font-bold text-white">${p.name}</span>
+          <span class="text-slate-400">ID: ${p.id}</span>
+        </div>`;
+      });
+      document.getElementById('manage-roster-list').innerHTML = rosterHtml;
 
-      const historyContainer = document.getElementById('manage-history-list');
-      document.getElementById('history-count-badge').innerText = `${window.state.matches.length} matches`;
-
-      const sorted = [...(window.state.matches || [])].sort((a,b) => new Date(b.date) - new Date(a.date));
-
-      historyContainer.innerHTML = sorted.map(m => {
-        const getNames = (pIds) => pIds.map(id => window.state.players.find(x => x.id === id)?.name || 'Unknown').join(' & ');
-        const scoreStr = m.scores.map(s => `${s.a}-${s.b}`).join(', ');
-
-        return `
-          <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 flex items-center justify-between gap-3 text-xs">
-            <div>
-              <div class="text-[10px] text-slate-400 font-bold uppercase mb-0.5">${m.date} &bull; ${m.type}</div>
-              <div class="font-bold text-slate-200">${getNames(m.team1)} <span class="text-slate-500 font-normal">vs</span> ${getNames(m.team2)}</div>
-            </div>
-            <div class="flex items-center gap-3">
-              <span class="font-mono font-bold text-lime-400 bg-slate-800 px-2.5 py-1 rounded border border-slate-700">${scoreStr}</span>
-              <button onclick="deleteMatch('${m.id}')" class="text-slate-500 hover:text-rose-400 p-1 transition-colors" title="Delete Match">
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
-            </div>
+      document.getElementById('history-count-badge').innerText = window.state.matches.length + ' matches';
+      let historyHtml = '';
+      [...window.state.matches].reverse().forEach(m => {
+        let n1 = m.team1.map(id => getPlayerName(id)).join(' & ');
+        let n2 = m.team2.map(id => getPlayerName(id)).join(' & ');
+        let s = m.scores[0];
+        historyHtml += `<div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 flex items-center justify-between text-xs">
+          <div>
+            <div class="font-bold text-white">${n1} <span class="text-lime-400 font-mono">${s.a}</span> - <span class="text-teal-400 font-mono">${s.b}</span> ${n2}</div>
+            <div class="text-[11px] text-slate-400 mt-0.5">${m.date}</div>
           </div>
-        `;
-      }).join('');
+          <button onclick="deleteMatch('${m.id}')" class="text-rose-400 hover:text-rose-300 p-1.5"><i class="fa-solid fa-trash"></i></button>
+        </div>`;
+      });
+      document.getElementById('manage-history-list').innerHTML = historyHtml || '<div class="text-xs text-slate-500 text-center py-4">No matches recorded yet.</div>';
     }
+
+    function getPlayerName(id) {
+      let p = window.state.players.find(x => x.id === id);
+      return p ? p.name : 'Unknown';
+    }
+
+    function renderPlayerProfile() {
+      let pId = document.getElementById('profile-select-player').value;
+      let p = window.state.computedPlayers.find(x => x.id === pId);
+      if(!p) return;
+
+      let html = `<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/50 text-center"><div class="text-xs text-slate-400 uppercase">Elo Rating</div><div class="text-2xl font-black text-lime-400 font-mono">${Math.round(p.elo)}</div></div>
+        <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/50 text-center"><div class="text-xs text-slate-400 uppercase">Win Rate</div><div class="text-2xl font-black text-white">${Math.round(p.winRate*100)}%</div></div>
+        <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/50 text-center"><div class="text-xs text-slate-400 uppercase">Record</div><div class="text-2xl font-black text-slate-200">${p.wins} - ${p.losses}</div></div>
+        <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/50 text-center"><div class="text-xs text-slate-400 uppercase">Unique Partners</div><div class="text-2xl font-black text-teal-400">${p.uniquePartners}</div></div>
+      </div>`;
+      document.getElementById('profile-content').innerHTML = html;
+    }
+
+    function switchTab(tabId) {
+      ['leaderboard', 'record', 'profiles', 'awards', 'manage'].forEach(t => {
+        let el = document.getElementById('section-' + t);
+        if(el) el.classList.toggle('hidden', t !== tabId);
+      });
+    }
+
+    function handleAuthToggle() {
+      if(!window.state.isAdmin) {
+        toggleLoginModal(true);
+      } else {
+        window.state.isAdmin = false;
+        document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));
+        document.getElementById('badge-view-mode').innerHTML = '<i class="fa-solid fa-eye text-[10px]"></i> Public View';
+        document.getElementById('badge-view-mode').className = "px-2 py-0.5 rounded-full text-[10px] font-bold border bg-slate-800 text-slate-400 border-slate-700";
+        document.getElementById('lbl-auth-toggle').innerText = "Admin";
+        switchTab('leaderboard');
+      }
+    }
+
+    function toggleLoginModal(show) {
+      document.getElementById('login-modal').classList.toggle('hidden', !show);
+    }
+
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      let pass = document.getElementById('admin-pass-input').value;
+      if(pass === window.state.adminPasscode) {
+        window.state.isAdmin = true;
+        toggleLoginModal(false);
+        document.getElementById('admin-pass-input').value = '';
+        document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
+        document.getElementById('badge-view-mode').innerHTML = '<i class="fa-solid fa-shield text-[10px]"></i> Admin Mode';
+        document.getElementById('badge-view-mode').className = "px-2 py-0.5 rounded-full text-[10px] font-bold border bg-emerald-950 text-emerald-400 border-emerald-800";
+        document.getElementById('lbl-auth-toggle').innerText = "Exit Admin";
+        switchTab('record');
+      } else {
+        alert("Incorrect passcode!");
+      }
+    }
+
+    window.onload = function() {
+      document.getElementById('form-date').value = new Date().toISOString().split('T')[0];
+      initData();
+    };
   </script>
 </body>
 </html>
