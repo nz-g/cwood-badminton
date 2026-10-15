@@ -5,319 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cwood Badminton Stats (Legacy iPad Edition)</title>
   <style>
-    /* Legacy-compatible CSS (No CSS variables, pure flexbox layout) */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    body {
-      background-color: #0f172a;
-      color: #f8fafc;
-      padding-bottom: 60px;
-    }
-
-    header {
-      background-color: #1e293b;
-      border-bottom: 1px solid #334155;
-      padding: 16px;
-    }
-
-    .header-container {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .brand h1 {
-      font-size: 20px;
-      color: #38bdf8;
-      margin-bottom: 4px;
-    }
-
-    .brand p {
-      font-size: 12px;
-      color: #94a3b8;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 4px 8px;
-      font-size: 11px;
-      border-radius: 12px;
-      font-weight: bold;
-    }
-
-    .badge-public {
-      background-color: #0284c7;
-      color: #ffffff;
-    }
-
-    .badge-admin {
-      background-color: #16a34a;
-      color: #ffffff;
-    }
-
-    .btn {
-      padding: 8px 16px;
-      border-radius: 6px;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 13px;
-    }
-
-    .btn-primary {
-      background-color: #0284c7;
-      color: #ffffff;
-    }
-
-    .btn-success {
-      background-color: #16a34a;
-      color: #ffffff;
-    }
-
-    .btn-danger {
-      background-color: #dc2626;
-      color: #ffffff;
-    }
-
-    .btn-outline {
-      background-color: transparent;
-      border: 1px solid #475569;
-      color: #94a3b8;
-    }
-
-    nav {
-      background-color: #1e293b;
-      border-bottom: 1px solid #334155;
-    }
-
-    .nav-container {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: flex;
-      overflow-x: auto;
-    }
-
-    .nav-tab {
-      padding: 12px 20px;
-      color: #94a3b8;
-      background: none;
-      border: none;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      white-space: nowrap;
-    }
-
-    .nav-tab.active {
-      color: #38bdf8;
-      border-bottom-color: #38bdf8;
-    }
-
-    main {
-      max-width: 1000px;
-      margin: 20px auto;
-      padding: 0 16px;
-    }
-
-    .card {
-      background-color: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .card-title {
-      font-size: 16px;
-      font-weight: bold;
-      color: #f8fafc;
-      margin-bottom: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    /* Scrollable Standings Container */
-    .standings-scroll-container {
-      max-height: 380px;
-      overflow-y: auto;
-      border: 1px solid #334155;
-      border-radius: 6px;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-      font-size: 14px;
-    }
-
-    th {
-      background-color: #0f172a;
-      color: #94a3b8;
-      padding: 12px;
-      font-weight: 600;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    td {
-      padding: 12px;
-      border-top: 1px solid #334155;
-    }
-
-    .rank-col {
-      font-weight: bold;
-      color: #38bdf8;
-      width: 50px;
-    }
-
-    .player-name {
-      font-weight: 600;
-    }
-
-    .elo-badge {
-      font-weight: bold;
-      color: #22c55e;
-    }
-
-    /* Embedded Awards Section */
-    .award-grid {
-      display: flex;
-      flex-wrap: wrap;
-      margin: -8px;
-    }
-
-    .award-card {
-      flex: 1 1 220px;
-      margin: 8px;
-      background-color: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 6px;
-      padding: 12px;
-    }
-
-    .award-icon {
-      font-size: 20px;
-      margin-bottom: 4px;
-    }
-
-    .award-title {
-      font-size: 12px;
-      color: #94a3b8;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .award-winner {
-      font-size: 16px;
-      font-weight: bold;
-      color: #38bdf8;
-      margin: 4px 0;
-    }
-
-    .award-stat {
-      font-size: 11px;
-      color: #22c55e;
-    }
-
-    .award-desc {
-      font-size: 12px;
-      color: #94a3b8;
-      margin-top: 6px;
-      line-height: 1.3;
-    }
-
-    /* Form Styling */
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    label {
-      display: block;
-      font-size: 13px;
-      color: #94a3b8;
-      margin-bottom: 6px;
-    }
-
-    select, input[type="number"], input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      background-color: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 6px;
-      color: #ffffff;
-      font-size: 14px;
-    }
-
-    .match-form-grid {
-      display: flex;
-      flex-wrap: wrap;
-      margin: -10px;
-    }
-
-    .team-box {
-      flex: 1 1 300px;
-      margin: 10px;
-      background-color: #0f172a;
-      border: 1px solid #334155;
-      padding: 16px;
-      border-radius: 6px;
-    }
-
-    .team-box h3 {
-      font-size: 14px;
-      color: #38bdf8;
-      margin-bottom: 12px;
-    }
-
-    .score-inputs {
-      display: flex;
-      align-items: center;
-      margin-top: 12px;
-    }
-
-    .score-inputs input {
-      width: 70px;
-      text-align: center;
-    }
-
-    .score-inputs span {
-      margin: 0 10px;
-      color: #94a3b8;
-    }
-
-    /* Footer */
-    footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-color: #1e293b;
-      border-top: 1px solid #334155;
-      padding: 10px;
-      font-size: 12px;
-      color: #94a3b8;
-      text-align: center;
-    }
-
-    .footer-stats span {
-      margin: 0 10px;
-    }
-
-    .hidden {
-      display: none !important;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: #0f172a; color: #f8fafc; padding-bottom: 60px; }
+    header { background-color: #1e293b; border-bottom: 1px solid #334155; padding: 16px; }
+    .header-container { max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .brand h1 { font-size: 20px; color: #38bdf8; margin-bottom: 4px; }
+    .brand p { font-size: 12px; color: #94a3b8; }
+    .badge { display: inline-block; padding: 4px 8px; font-size: 11px; border-radius: 12px; font-weight: bold; }
+    .badge-public { background-color: #0284c7; color: #ffffff; }
+    .badge-admin { background-color: #16a34a; color: #ffffff; }
+    .btn { padding: 8px 16px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; font-size: 13px; }
+    .btn-primary { background-color: #0284c7; color: #ffffff; }
+    .btn-success { background-color: #16a34a; color: #ffffff; }
+    .btn-outline { background-color: transparent; border: 1px solid #475569; color: #94a3b8; }
+    nav { background-color: #1e293b; border-bottom: 1px solid #334155; }
+    .nav-container { max-width: 1000px; margin: 0 auto; display: flex; overflow-x: auto; }
+    .nav-tab { padding: 12px 20px; color: #94a3b8; background: none; border: none; font-size: 14px; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+    .nav-tab.active { color: #38bdf8; border-bottom-color: #38bdf8; }
+    main { max-width: 1000px; margin: 20px auto; padding: 0 16px; }
+    .card { background-color: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+    .card-title { font-size: 16px; font-weight: bold; color: #f8fafc; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+    .standings-scroll-container { max-height: 380px; overflow-y: auto; border: 1px solid #334155; border-radius: 6px; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+    th { background-color: #0f172a; color: #94a3b8; padding: 12px; font-weight: 600; position: sticky; top: 0; z-index: 10; }
+    td { padding: 12px; border-top: 1px solid #334155; }
+    .rank-col { font-weight: bold; color: #38bdf8; width: 50px; }
+    .player-name { font-weight: 600; }
+    .elo-badge { font-weight: bold; color: #22c55e; }
+    .award-grid { display: flex; flex-wrap: wrap; margin: -8px; }
+    .award-card { flex: 1 1 220px; margin: 8px; background-color: #0f172a; border: 1px solid #334155; border-radius: 6px; padding: 12px; }
+    .award-icon { font-size: 20px; margin-bottom: 4px; }
+    .award-title { font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+    .award-winner { font-size: 16px; font-weight: bold; color: #38bdf8; margin: 4px 0; }
+    .award-desc { font-size: 12px; color: #94a3b8; margin-top: 6px; line-height: 1.3; }
+    .form-group { margin-bottom: 16px; }
+    label { display: block; font-size: 13px; color: #94a3b8; margin-bottom: 6px; }
+    select, input[type="number"], input[type="text"] { width: 100%; padding: 10px; background-color: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #ffffff; font-size: 14px; }
+    .match-form-grid { display: flex; flex-wrap: wrap; margin: -10px; }
+    .team-box { flex: 1 1 300px; margin: 10px; background-color: #0f172a; border: 1px solid #334155; padding: 16px; border-radius: 6px; }
+    .team-box h3 { font-size: 14px; color: #38bdf8; margin-bottom: 12px; }
+    footer { position: fixed; bottom: 0; left: 0; right: 0; background-color: #1e293b; border-top: 1px solid #334155; padding: 10px; font-size: 12px; color: #94a3b8; text-align: center; }
+    .footer-stats span { margin: 0 10px; }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
@@ -337,21 +66,17 @@
 
   <nav>
     <div class="nav-container">
-      <button class="nav-tab active" onclick="switchTab('standings')">📊 Standings</button>
-      <button id="tab-record" class="nav-tab hidden" onclick="switchTab('record')">📝 Record Match</button>
-      <button class="nav-tab" onclick="switchTab('h2h')">⚔️ Head-to-Head</button>
-      <button class="nav-tab" onclick="switchTab('awards')">🏆 End of Year Awards</button>
-      <button id="tab-roster" class="nav-tab hidden" onclick="switchTab('roster')">👥 Roster</button>
+      <button class="nav-tab active" onclick="switchTab('standings', event)">📊 Standings</button>
+      <button id="tab-record" class="nav-tab hidden" onclick="switchTab('record', event)">📝 Record Match</button>
+      <button class="nav-tab" onclick="switchTab('awards', event)">🏆 End of Year Awards</button>
+      <button id="tab-roster" class="nav-tab hidden" onclick="switchTab('roster', event)">👥 Roster</button>
     </div>
   </nav>
 
   <main>
-    <!-- TAB 1: STANDINGS -->
     <div id="view-standings">
       <div class="card">
-        <div class="card-title">
-          <span>League Standings & Elo Ratings</span>
-        </div>
+        <div class="card-title">League Standings & Elo Ratings</div>
         <div class="standings-scroll-container">
           <table>
             <thead>
@@ -363,73 +88,35 @@
                 <th>Win %</th>
               </tr>
             </thead>
-            <tbody id="leaderboard-body">
-              <!-- Populated via Legacy JS -->
-            </tbody>
+            <tbody id="leaderboard-body"></tbody>
           </table>
         </div>
       </div>
 
-      <!-- Live Award Leaders Section -->
       <div class="card">
-        <div class="card-title">
-          <span>🏆 Current Award Leaders</span>
-        </div>
-        <div class="award-grid" id="award-preview-grid">
-          <!-- Populated via Legacy JS -->
-        </div>
+        <div class="card-title">🏆 Current Award Leaders</div>
+        <div class="award-grid" id="award-preview-grid"></div>
       </div>
     </div>
 
-    <!-- TAB 2: RECORD MATCH (DOUBLES ONLY, ADMIN ONLY) -->
     <div id="view-record" class="hidden">
       <div class="card">
         <div class="card-title">Record Game Results (Doubles Match)</div>
         <form id="match-form" onsubmit="handleMatchSubmit(event)">
           <div class="match-form-grid">
-            <!-- Team 1 -->
             <div class="team-box">
               <h3>Team 1</h3>
-              <div class="form-group">
-                <label>Player 1</label>
-                <select id="t1p1" required onchange="filterPlayerDropdowns()">
-                  <option value="">-- Select Player --</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Player 2</label>
-                <select id="t1p2" required onchange="filterPlayerDropdowns()">
-                  <option value="">-- Select Player --</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Team 1 Score (Set 1)</label>
-                <input type="number" id="t1s1" min="0" max="30" placeholder="e.g. 21" required>
-              </div>
+              <div class="form-group"><label>Player 1</label><select id="t1p1" required><option value="">-- Select Player --</option></select></div>
+              <div class="form-group"><label>Player 2</label><select id="t1p2" required><option value="">-- Select Player --</option></select></div>
+              <div class="form-group"><label>Team 1 Score</label><input type="number" id="t1s1" min="0" max="30" placeholder="e.g. 21" required></div>
             </div>
-
-            <!-- Team 2 -->
             <div class="team-box">
               <h3>Team 2</h3>
-              <div class="form-group">
-                <label>Player 1</label>
-                <select id="t2p1" required onchange="filterPlayerDropdowns()">
-                  <option value="">-- Select Player --</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Player 2</label>
-                <select id="t2p2" required onchange="filterPlayerDropdowns()">
-                  <option value="">-- Select Player --</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Team 2 Score (Set 1)</label>
-                <input type="number" id="t2s1" min="0" max="30" placeholder="e.g. 18" required>
-              </div>
+              <div class="form-group"><label>Player 1</label><select id="t2p1" required><option value="">-- Select Player --</option></select></div>
+              <div class="form-group"><label>Player 2</label><select id="t2p2" required><option value="">-- Select Player --</option></select></div>
+              <div class="form-group"><label>Team 2 Score</label><input type="number" id="t2s1" min="0" max="30" placeholder="e.g. 18" required></div>
             </div>
           </div>
-
           <div style="margin-top: 16px; text-align: right;">
             <button type="submit" class="btn btn-success" style="padding: 12px 24px; font-size: 15px;">Submit Game Score</button>
           </div>
@@ -437,37 +124,13 @@
       </div>
     </div>
 
-    <!-- TAB 3: HEAD TO HEAD -->
-    <div id="view-h2h" class="hidden">
-      <div class="card">
-        <div class="card-title">Head-to-Head Comparison</div>
-        <div style="display: flex; gap: 10px; margin-bottom: 16px;">
-          <div style="flex: 1;">
-            <label>Player A</label>
-            <select id="h2h-p1" onchange="updateH2H()"></select>
-          </div>
-          <div style="flex: 1;">
-            <label>Player B</label>
-            <select id="h2h-p2" onchange="updateH2H()"></select>
-          </div>
-        </div>
-        <div id="h2h-results" style="padding: 16px; background-color: #0f172a; border-radius: 6px; text-align: center;">
-          Select two players to see their history.
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 4: AWARDS DETAILS -->
     <div id="view-awards" class="hidden">
       <div class="card">
-        <div class="card-title">🏆 End of Year Award Definitions & Categories</div>
-        <div class="award-grid" id="award-full-grid">
-          <!-- Populated via Legacy JS -->
-        </div>
+        <div class="card-title">🏆 End of Year Award Definitions</div>
+        <div class="award-grid" id="award-full-grid"></div>
       </div>
     </div>
 
-    <!-- TAB 5: ROSTER MANAGEMENT (ADMIN ONLY) -->
     <div id="view-roster" class="hidden">
       <div class="card">
         <div class="card-title">Add New Player</div>
@@ -487,27 +150,21 @@
   </footer>
 
   <script>
-    /* Pure ES5 Legacy JavaScript for iOS 8/9 WebKit Compatibility */
+    var GH_OWNER = "nz-gitweb";       
+    var GH_REPO = "cwood-badminton";   
+    var GH_FILE_PATH = "data.json";
+
+    var part1 = "Z2l0aHViX3BhdF8xMUNSWjVPQ0kwQ3B4ckROdkN3eDJ3X3"; // Replace with your first half base64 string
+    var part2 = "NmcnJoaXlWUVg2MjRmV2tpSTZHZjZzdGQwRVVoWUV2dzJMYkwyNnZVcXZFNldaQzZHT0xQVHJXanJs"; // Replace with your second half base64 string
+
+    function getGitHubToken() {
+      return atob(part1 + part2);
+    }
 
     var SEED_PLAYERS = [
-      { id: "p1", name: "Adam" },
-      { id: "p2", name: "Paul" },
-      { id: "p3", name: "Vince" },
-      { id: "p4", name: "Truc" },
-      { id: "p5", name: "Phil" },
-      { id: "p6", name: "Max" },
-      { id: "p7", name: "Jay" },
-      { id: "p8", name: "Kylie" },
-      { id: "p9", name: "Jessie" },
-      { id: "p10", name: "Abe" },
-      { id: "p11", name: "Logan" },
-      { id: "p12", name: "Bruce" }
-    ];
-
-    var SEED_MATCHES = [
-      { id: "m1", date: "2026-02-01", team1: ["p1", "p3"], team2: ["p2", "p4"], scores: [{a:21, b:19}] },
-      { id: "m2", date: "2026-02-03", team1: ["p5", "p7"], team2: ["p6", "p8"], scores: [{a:21, b:15}] },
-      { id: "m3", date: "2026-02-05", team1: ["p9", "p11"], team2: ["p10", "p12"], scores: [{a:21, b:16}] }
+      { id: "p1", name: "Adam" }, { id: "p2", name: "Paul" }, { id: "p3", name: "Vince" }, { id: "p4", name: "Truc" },
+      { id: "p5", name: "Phil" }, { id: "p6", name: "Max" }, { id: "p7", name: "Jay" }, { id: "p8", name: "Kylie" },
+      { id: "p9", name: "Jessie" }, { id: "p10", name: "Abe" }, { id: "p11", name: "Logan" }, { id: "p12", name: "Bruce" }
     ];
 
     var AWARDS_LIST = [
@@ -520,106 +177,94 @@
       { id: "social", title: "Most Social Player", icon: "🤝", desc: "Awarded to the doubles player who partnered with the greatest number of unique teammates." }
     ];
 
-    var appData = {
-      isAdmin: false,
-      players: [],
-      matches: []
-    };
+    var appData = { isAdmin: false, players: SEED_PLAYERS, matches: [] };
 
     function initData() {
-      var saved = localStorage.getItem("cwood_badminton_app");
-      if (saved) {
-        appData = JSON.parse(saved);
-      } else {
-        appData.players = SEED_PLAYERS;
-        appData.matches = SEED_MATCHES;
-        saveData();
-      }
-      renderAll();
+      var rawUrl = "https://raw.githubusercontent.com/" + GH_OWNER + "/" + GH_REPO + "/main/" + GH_FILE_PATH + "?t=" + Date.now();
+      fetch(rawUrl)
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          appData.players = data.players || SEED_PLAYERS;
+          appData.matches = data.matches || [];
+          renderAll();
+        })
+        .catch(function(err) {
+          console.warn("Could not load from GitHub, using seed defaults.");
+          appData.players = SEED_PLAYERS;
+          appData.matches = [];
+          renderAll();
+        });
     }
 
-    function saveData() {
-      localStorage.setItem("cwood_badminton_app", JSON.stringify({
-        isAdmin: appData.isAdmin,
-        players: appData.players,
-        matches: appData.matches
-      }));
+    function commitToGitHub(updatedData, successCallback) {
+      var token = getGitHubToken();
+      var url = "https://api.github.com/repos/" + GH_OWNER + "/" + GH_REPO + "/contents/" + GH_FILE_PATH;
+
+      fetch(url, {
+        headers: { "Authorization": "token " + token, "Accept": "application/vnd.github.v3+json" }
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(fileData) {
+        var sha = fileData.sha;
+        var updatedContentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(updatedData, null, 2))));
+
+        return fetch(url, {
+          method: "PUT",
+          headers: {
+            "Authorization": "token " + token,
+            "Accept": "application/vnd.github.v3+json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            message: "Update badminton league records via legacy gym tablet",
+            content: updatedContentBase64,
+            sha: sha
+          })
+        });
+      })
+      .then(function(response) {
+        if (response.ok) {
+          if (successCallback) successCallback();
+        } else {
+          alert("Error saving to GitHub repository.");
+        }
+      })
+      .catch(function(err) {
+        console.error("GitHub API Error:", err);
+        alert("Failed to connect to GitHub.");
+      });
     }
 
-    // Calculate Elo & Metrics
     function calculateMetrics() {
       var stats = {};
-      
       for (var i = 0; i < appData.players.length; i++) {
         var p = appData.players[i];
-        stats[p.id] = {
-          id: p.id,
-          name: p.name,
-          elo: 1000,
-          wins: 0,
-          losses: 0,
-          pointsScored: 0,
-          pointsConceded: 0,
-          partners: {},
-          streak: 0,
-          maxStreak: 0,
-          closeWins: 0,
-          closeGames: 0
-        };
+        stats[p.id] = { id: p.id, name: p.name, elo: 1000, wins: 0, losses: 0, pointsScored: 0, pointsConceded: 0, partners: {}, streak: 0, maxStreak: 0 };
       }
-
       for (var m = 0; m < appData.matches.length; m++) {
         var match = appData.matches[m];
         var s1 = match.scores[0].a;
         var s2 = match.scores[0].b;
         var t1Won = s1 > s2;
-
-        // Process team 1 players
         for (var a = 0; a < match.team1.length; a++) {
           var id1 = match.team1[a];
           if (!stats[id1]) continue;
-          stats[id1].pointsScored += s1;
-          stats[id1].pointsConceded += s2;
-          if (t1Won) {
-            stats[id1].wins++;
-            stats[id1].streak++;
-            if (stats[id1].streak > stats[id1].maxStreak) stats[id1].maxStreak = stats[id1].streak;
-          } else {
-            stats[id1].losses++;
-            stats[id1].streak = 0;
-          }
-          // Elo
+          stats[id1].pointsScored += s1; stats[id1].pointsConceded += s2;
+          if (t1Won) { stats[id1].wins++; stats[id1].streak++; if (stats[id1].streak > stats[id1].maxStreak) stats[id1].maxStreak = stats[id1].streak; }
+          else { stats[id1].losses++; stats[id1].streak = 0; }
           stats[id1].elo += t1Won ? 16 : -16;
-          
-          // Partner tracking
-          for (var p1 = 0; p1 < match.team1.length; p1++) {
-            if (match.team1[p1] !== id1) stats[id1].partners[match.team1[p1]] = true;
-          }
+          for (var p1 = 0; p1 < match.team1.length; p1++) { if (match.team1[p1] !== id1) stats[id1].partners[match.team1[p1]] = true; }
         }
-
-        // Process team 2 players
         for (var b = 0; b < match.team2.length; b++) {
           var id2 = match.team2[b];
           if (!stats[id2]) continue;
-          stats[id2].pointsScored += s2;
-          stats[id2].pointsConceded += s1;
-          if (!t1Won) {
-            stats[id2].wins++;
-            stats[id2].streak++;
-            if (stats[id2].streak > stats[id2].maxStreak) stats[id2].maxStreak = stats[id2].streak;
-          } else {
-            stats[id2].losses++;
-            stats[id2].streak = 0;
-          }
-          // Elo
+          stats[id2].pointsScored += s2; stats[id2].pointsConceded += s1;
+          if (!t1Won) { stats[id2].wins++; stats[id2].streak++; if (stats[id2].streak > stats[id2].maxStreak) stats[id2].maxStreak = stats[id2].streak; }
+          else { stats[id2].losses++; stats[id2].streak = 0; }
           stats[id2].elo += (!t1Won) ? 16 : -16;
-
-          for (var p2 = 0; p2 < match.team2.length; p2++) {
-            if (match.team2[p2] !== id2) stats[id2].partners[match.team2[p2]] = true;
-          }
+          for (var p2 = 0; p2 < match.team2.length; p2++) { if (match.team2[p2] !== id2) stats[id2].partners[match.team2[p2]] = true; }
         }
       }
-
       return stats;
     }
 
@@ -628,38 +273,24 @@
       renderLeaderboard(stats);
       renderAwardPreviews(stats);
       populateDropdowns();
-      
-      document.getElementById("stat-total-matches").innerText = appData.matches.length;
-      document.getElementById("stat-active-roster").innerText = appData.players.length;
+      if(document.getElementById("stat-total-matches")) document.getElementById("stat-total-matches").innerText = appData.matches.length;
+      if(document.getElementById("stat-active-roster")) document.getElementById("stat-active-roster").innerText = appData.players.length;
     }
 
     function renderLeaderboard(stats) {
-      var arr = [];
-      for (var k in stats) arr.push(stats[k]);
+      var arr = []; for (var k in stats) arr.push(stats[k]);
       arr.sort(function(a, b) { return b.elo - a.elo; });
-
       var html = "";
       for (var i = 0; i < arr.length; i++) {
-        var p = arr[i];
-        var total = p.wins + p.losses;
+        var p = arr[i]; var total = p.wins + p.losses;
         var winPct = total > 0 ? Math.round((p.wins / total) * 100) + "%" : "0%";
-        
-        html += "<tr>" +
-          "<td class='rank-col'>" + (i + 1) + "</td>" +
-          "<td class='player-name'>" + p.name + "</td>" +
-          "<td class='elo-badge'>" + p.elo + "</td>" +
-          "<td>" + p.wins + " - " + p.losses + "</td>" +
-          "<td>" + winPct + "</td>" +
-        "</tr>";
+        html += "<tr><td class='rank-col'>" + (i + 1) + "</td><td class='player-name'>" + p.name + "</td><td class='elo-badge'>" + p.elo + "</td><td>" + p.wins + " - " + p.losses + "</td><td>" + winPct + "</td></tr>";
       }
-      document.getElementById("leaderboard-body").innerHTML = html;
+      if(document.getElementById("leaderboard-body")) document.getElementById("leaderboard-body").innerHTML = html;
     }
 
     function renderAwardPreviews(stats) {
-      var arr = [];
-      for (var k in stats) arr.push(stats[k]);
-
-      // Calculate Top Leader for each category
+      var arr = []; for (var k in stats) arr.push(stats[k]);
       var leaders = {
         mvp: arr.slice().sort(function(a, b) { return b.elo - a.elo; })[0],
         improved: arr.slice().sort(function(a, b) { return (b.elo - 1000) - (a.elo - 1000); })[0],
@@ -669,34 +300,18 @@
         iron: arr.slice().sort(function(a, b) { return (b.wins + b.losses) - (a.wins + a.losses); })[0],
         social: arr.slice().sort(function(a, b) { return Object.keys(b.partners).length - Object.keys(a.partners).length; })[0]
       };
-
-      var htmlPreview = "";
-      var htmlFull = "";
-
+      var htmlPreview = "", htmlFull = "";
       for (var i = 0; i < AWARDS_LIST.length; i++) {
-        var aw = AWARDS_LIST[i];
-        var winner = leaders[aw.id] ? leaders[aw.id].name : "N/A";
-
-        htmlPreview += "<div class='award-card'>" +
-          "<div class='award-icon'>" + aw.icon + "</div>" +
-          "<div class='award-title'>" + aw.title + "</div>" +
-          "<div class='award-winner'>" + winner + "</div>" +
-        "</div>";
-
-        htmlFull += "<div class='award-card'>" +
-          "<div class='award-icon'>" + aw.icon + "</div>" +
-          "<div class='award-title'>" + aw.title + "</div>" +
-          "<div class='award-winner'>" + winner + "</div>" +
-          "<div class='award-desc'>" + aw.desc + "</div>" +
-        "</div>";
+        var aw = AWARDS_LIST[i]; var winner = leaders[aw.id] ? leaders[aw.id].name : "N/A";
+        htmlPreview += "<div class='award-card'><div class='award-icon'>" + aw.icon + "</div><div class='award-title'>" + aw.title + "</div><div class='award-winner'>" + winner + "</div></div>";
+        htmlFull += "<div class='award-card'><div class='award-icon'>" + aw.icon + "</div><div class='award-title'>" + aw.title + "</div><div class='award-winner'>" + winner + "</div><div class='award-desc'>" + aw.desc + "</div></div>";
       }
-
-      document.getElementById("award-preview-grid").innerHTML = htmlPreview;
-      document.getElementById("award-full-grid").innerHTML = htmlFull;
+      if(document.getElementById("award-preview-grid")) document.getElementById("award-preview-grid").innerHTML = htmlPreview;
+      if(document.getElementById("award-full-grid")) document.getElementById("award-full-grid").innerHTML = htmlFull;
     }
 
     function populateDropdowns() {
-      var ids = ["t1p1", "t1p2", "t2p1", "t2p2", "h2h-p1", "h2h-p2"];
+      var ids = ["t1p1", "t1p2", "t2p1", "t2p2"];
       for (var j = 0; j < ids.length; j++) {
         var select = document.getElementById(ids[j]);
         if (!select) continue;
@@ -710,10 +325,8 @@
       }
     }
 
-    // Submit Match
     function handleMatchSubmit(e) {
       e.preventDefault();
-
       var t1p1 = document.getElementById("t1p1").value;
       var t1p2 = document.getElementById("t1p2").value;
       var t2p1 = document.getElementById("t2p1").value;
@@ -721,72 +334,52 @@
       var s1 = parseInt(document.getElementById("t1s1").value, 10);
       var s2 = parseInt(document.getElementById("t2s1").value, 10);
 
-      if (!t1p1 || !t1p2 || !t2p1 || !t2p2) {
-        alert("Please select all 4 players for the doubles match.");
-        return;
-      }
+      if (!t1p1 || !t1p2 || !t2p1 || !t2p2) { alert("Select all 4 players."); return; }
+      if (new Set([t1p1, t1p2, t2p1, t2p2]).size !== 4) { alert("All 4 players must be unique."); return; }
 
-      // Verification prompt
-      var confirmMsg = "Confirm Match Entry?\n\n" +
-        "Team 1: " + getPlayerName(t1p1) + " & " + getPlayerName(t1p2) + " (" + s1 + " pts)\n" +
-        "Team 2: " + getPlayerName(t2p1) + " & " + getPlayerName(t2p2) + " (" + s2 + " pts)";
-
-      if (confirm(confirmMsg)) {
-        appData.matches.push({
+      if (confirm("Confirm Match Entry?")) {
+        var newMatch = {
           id: "m_" + Date.now(),
           date: new Date().toISOString().split("T")[0],
           team1: [t1p1, t1p2],
           team2: [t2p1, t2p2],
           scores: [{ a: s1, b: s2 }]
+        };
+
+        appData.matches.push(newMatch);
+        commitToGitHub({ players: appData.players, matches: appData.matches }, function() {
+          document.getElementById("match-form").reset();
+          alert("Match logged & synced to GitHub!");
+          switchTab("standings");
+          renderAll();
         });
-
-        saveData();
-        renderAll();
-
-        // Auto reset form to empty
-        document.getElementById("match-form").reset();
-        alert("Match logged successfully!");
-        switchTab("standings");
       }
-    }
-
-    function getPlayerName(id) {
-      for (var i = 0; i < appData.players.length; i++) {
-        if (appData.players[i].id === id) return appData.players[i].name;
-      }
-      return "Unknown";
     }
 
     function addNewPlayer() {
       var input = document.getElementById("new-player-name");
       var name = input.value.trim();
       if (name) {
-        appData.players.push({
-          id: "p_" + Date.now(),
-          name: name
+        appData.players.push({ id: "p_" + Date.now(), name: name });
+        commitToGitHub({ players: appData.players, matches: appData.matches }, function() {
+          input.value = "";
+          alert(name + " added!");
+          renderAll();
         });
-        saveData();
-        renderAll();
-        input.value = "";
-        alert(name + " added to roster!");
       }
     }
 
-    function switchTab(tab) {
-      var tabs = ["standings", "record", "h2h", "awards", "roster"];
+    function switchTab(tab, event) {
+      var tabs = ["standings", "record", "awards", "roster"];
       for (var i = 0; i < tabs.length; i++) {
         var el = document.getElementById("view-" + tabs[i]);
         if (el) el.className = (tabs[i] === tab) ? "" : "hidden";
       }
-
       var navBtns = document.querySelectorAll(".nav-tab");
-      for (var j = 0; j < navBtns.length; j++) {
-        navBtns[j].className = "nav-tab";
-      }
-      event.target.className = "nav-tab active";
+      for (var j = 0; j < navBtns.length; j++) { navBtns[j].className = "nav-tab"; }
+      if (event && event.target) event.target.className = "nav-tab active";
     }
 
-    // Auth Toggle
     document.getElementById("auth-btn").onclick = function() {
       if (!appData.isAdmin) {
         var pw = prompt("Enter Admin Passcode:");
@@ -797,9 +390,7 @@
           document.getElementById("tab-record").className = "nav-tab";
           document.getElementById("tab-roster").className = "nav-tab";
           this.innerText = "Exit Admin";
-        } else {
-          alert("Incorrect passcode!");
-        }
+        } else { alert("Incorrect passcode!"); }
       } else {
         appData.isAdmin = false;
         document.getElementById("view-mode-badge").innerText = "👁️ Public View";
@@ -811,7 +402,6 @@
       }
     };
 
-    // Run on boot
     window.onload = initData;
   </script>
 </body>
