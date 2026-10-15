@@ -642,4 +642,177 @@
       for (var i = 0; i < arr.length; i++) {
         var p = arr[i];
         var total = p.wins + p.losses;
-        var winPct = total > 0 ? Math.round((p.wins / total) * 100) +
+        var winPct = total > 0 ? Math.round((p.wins / total) * 100) + "%" : "0%";
+        
+        html += "<tr>" +
+          "<td class='rank-col'>" + (i + 1) + "</td>" +
+          "<td class='player-name'>" + p.name + "</td>" +
+          "<td class='elo-badge'>" + p.elo + "</td>" +
+          "<td>" + p.wins + " - " + p.losses + "</td>" +
+          "<td>" + winPct + "</td>" +
+        "</tr>";
+      }
+      document.getElementById("leaderboard-body").innerHTML = html;
+    }
+
+    function renderAwardPreviews(stats) {
+      var arr = [];
+      for (var k in stats) arr.push(stats[k]);
+
+      // Calculate Top Leader for each category
+      var leaders = {
+        mvp: arr.slice().sort(function(a, b) { return b.elo - a.elo; })[0],
+        improved: arr.slice().sort(function(a, b) { return (b.elo - 1000) - (a.elo - 1000); })[0],
+        defense: arr.slice().sort(function(a, b) { return (b.pointsScored / (b.pointsConceded || 1)) - (a.pointsScored / (a.pointsConceded || 1)); })[0],
+        streak: arr.slice().sort(function(a, b) { return b.maxStreak - a.maxStreak; })[0],
+        clutch: arr.slice().sort(function(a, b) { return b.wins - a.wins; })[0],
+        iron: arr.slice().sort(function(a, b) { return (b.wins + b.losses) - (a.wins + a.losses); })[0],
+        social: arr.slice().sort(function(a, b) { return Object.keys(b.partners).length - Object.keys(a.partners).length; })[0]
+      };
+
+      var htmlPreview = "";
+      var htmlFull = "";
+
+      for (var i = 0; i < AWARDS_LIST.length; i++) {
+        var aw = AWARDS_LIST[i];
+        var winner = leaders[aw.id] ? leaders[aw.id].name : "N/A";
+
+        htmlPreview += "<div class='award-card'>" +
+          "<div class='award-icon'>" + aw.icon + "</div>" +
+          "<div class='award-title'>" + aw.title + "</div>" +
+          "<div class='award-winner'>" + winner + "</div>" +
+        "</div>";
+
+        htmlFull += "<div class='award-card'>" +
+          "<div class='award-icon'>" + aw.icon + "</div>" +
+          "<div class='award-title'>" + aw.title + "</div>" +
+          "<div class='award-winner'>" + winner + "</div>" +
+          "<div class='award-desc'>" + aw.desc + "</div>" +
+        "</div>";
+      }
+
+      document.getElementById("award-preview-grid").innerHTML = htmlPreview;
+      document.getElementById("award-full-grid").innerHTML = htmlFull;
+    }
+
+    function populateDropdowns() {
+      var ids = ["t1p1", "t1p2", "t2p1", "t2p2", "h2h-p1", "h2h-p2"];
+      for (var j = 0; j < ids.length; j++) {
+        var select = document.getElementById(ids[j]);
+        if (!select) continue;
+        var currentVal = select.value;
+        select.innerHTML = "<option value=''>-- Select Player --</option>";
+        for (var i = 0; i < appData.players.length; i++) {
+          var p = appData.players[i];
+          select.innerHTML += "<option value='" + p.id + "'>" + p.name + "</option>";
+        }
+        select.value = currentVal;
+      }
+    }
+
+    // Submit Match
+    function handleMatchSubmit(e) {
+      e.preventDefault();
+
+      var t1p1 = document.getElementById("t1p1").value;
+      var t1p2 = document.getElementById("t1p2").value;
+      var t2p1 = document.getElementById("t2p1").value;
+      var t2p2 = document.getElementById("t2p2").value;
+      var s1 = parseInt(document.getElementById("t1s1").value, 10);
+      var s2 = parseInt(document.getElementById("t2s1").value, 10);
+
+      if (!t1p1 || !t1p2 || !t2p1 || !t2p2) {
+        alert("Please select all 4 players for the doubles match.");
+        return;
+      }
+
+      // Verification prompt
+      var confirmMsg = "Confirm Match Entry?\n\n" +
+        "Team 1: " + getPlayerName(t1p1) + " & " + getPlayerName(t1p2) + " (" + s1 + " pts)\n" +
+        "Team 2: " + getPlayerName(t2p1) + " & " + getPlayerName(t2p2) + " (" + s2 + " pts)";
+
+      if (confirm(confirmMsg)) {
+        appData.matches.push({
+          id: "m_" + Date.now(),
+          date: new Date().toISOString().split("T")[0],
+          team1: [t1p1, t1p2],
+          team2: [t2p1, t2p2],
+          scores: [{ a: s1, b: s2 }]
+        });
+
+        saveData();
+        renderAll();
+
+        // Auto reset form to empty
+        document.getElementById("match-form").reset();
+        alert("Match logged successfully!");
+        switchTab("standings");
+      }
+    }
+
+    function getPlayerName(id) {
+      for (var i = 0; i < appData.players.length; i++) {
+        if (appData.players[i].id === id) return appData.players[i].name;
+      }
+      return "Unknown";
+    }
+
+    function addNewPlayer() {
+      var input = document.getElementById("new-player-name");
+      var name = input.value.trim();
+      if (name) {
+        appData.players.push({
+          id: "p_" + Date.now(),
+          name: name
+        });
+        saveData();
+        renderAll();
+        input.value = "";
+        alert(name + " added to roster!");
+      }
+    }
+
+    function switchTab(tab) {
+      var tabs = ["standings", "record", "h2h", "awards", "roster"];
+      for (var i = 0; i < tabs.length; i++) {
+        var el = document.getElementById("view-" + tabs[i]);
+        if (el) el.className = (tabs[i] === tab) ? "" : "hidden";
+      }
+
+      var navBtns = document.querySelectorAll(".nav-tab");
+      for (var j = 0; j < navBtns.length; j++) {
+        navBtns[j].className = "nav-tab";
+      }
+      event.target.className = "nav-tab active";
+    }
+
+    // Auth Toggle
+    document.getElementById("auth-btn").onclick = function() {
+      if (!appData.isAdmin) {
+        var pw = prompt("Enter Admin Passcode:");
+        if (pw === "badminton123") {
+          appData.isAdmin = true;
+          document.getElementById("view-mode-badge").innerText = "🔒 Admin Mode";
+          document.getElementById("view-mode-badge").className = "badge badge-admin";
+          document.getElementById("tab-record").className = "nav-tab";
+          document.getElementById("tab-roster").className = "nav-tab";
+          this.innerText = "Exit Admin";
+        } else {
+          alert("Incorrect passcode!");
+        }
+      } else {
+        appData.isAdmin = false;
+        document.getElementById("view-mode-badge").innerText = "👁️ Public View";
+        document.getElementById("view-mode-badge").className = "badge badge-public";
+        document.getElementById("tab-record").className = "nav-tab hidden";
+        document.getElementById("tab-roster").className = "nav-tab hidden";
+        this.innerText = "Admin";
+        switchTab("standings");
+      }
+    };
+
+    // Run on boot
+    window.onload = initData;
+  </script>
+</body>
+</html>
