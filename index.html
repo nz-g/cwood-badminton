@@ -293,7 +293,7 @@
   <script>
     var GH_OWNER = "nz-gitweb", GH_REPO = "cwood-badminton", GH_FILE_PATH = "data.json";
     
-   var part1 = "Z2l0aHViX3BhdF8xMUNSWjVPQ0kwakNKQlJvUU9LNlZ1X3FGWGREV2", part2 = "x0QTdwN2tTVnlLZVVBeTFYbk15M1ZHSzVCT3k4d2RmOUMxdUE3TjVITEdYTHVIS3Q3bkRo"; // Replace with your token parts
+    var part1 = "Z2l0aHViX3BhdF8xMUNSWjVPQ0kwakNKQlJvUU9LNlZ1X3FGWGREV2", part2 = "x0QTdwN2tTVnlLZVVBeTFYbk15M1ZHSzVCT3k4d2RmOUMxdUE3TjVITEdYTHVIS3Q3bkRo"; // Replace with your token parts
 
     function getGitHubToken() { return atob(part1 + part2); }
 
@@ -426,6 +426,18 @@
       populateDropdowns();
     }
 
+    // Helper to pull the correct award metric based on award type
+    function getStatValForAward(awardId, p) {
+      if (!p) return 0;
+      if (awardId === 'mvp') return Math.round(p.elo);
+      if (awardId === 'social') return p.uniquePartners;
+      if (awardId === 'iron') return p.matches;
+      if (awardId === 'underdog') return p.upsetWins;
+      if (awardId === 'streak') return p.maxStreak;
+      if (awardId === 'improved') return Math.round(p.elo - 1000);
+      return 0;
+    }
+
     function renderAwardSpotlight() {
       let ranks = window.state.computedRankings;
       let html = '';
@@ -436,11 +448,14 @@
 
         let nextTenHtml = '';
         nextTen.forEach((p, i) => {
+          let statVal = getStatValForAward(aw.id, p);
           nextTenHtml += `<div class="flex justify-between text-xs py-1 border-b border-slate-700/40">
             <span class="text-slate-300">${i+2} ${p.name}</span>
-            <span class="text-lime-400 font-mono font-bold">${Math.round(p.elo || p.uniquePartners || p.matches || p.upsetWins || 0)}</span>
+            <span class="text-lime-400 font-mono font-bold">${statVal}</span>
           </div>`;
         });
+
+        let topVal = getStatValForAward(aw.id, topPlayer);
 
         html += `<div class="bg-slate-900/60 border border-slate-700 rounded-2xl p-5 space-y-4 shadow-xl flex flex-col justify-between">
           <div>
@@ -458,7 +473,7 @@
                 <span class="text-[10px] font-bold text-amber-400 uppercase tracking-widest block"><i class="fa-solid fa-crown"></i> Current Leader</span>
                 <span class="text-base font-black text-white">${topPlayer ? topPlayer.name : 'N/A'}</span>
               </div>
-              <span class="text-lime-400 font-mono font-black text-lg">${topPlayer ? Math.round(topPlayer.elo || topPlayer.uniquePartners || topPlayer.matches || topPlayer.upsetWins || 0) : ''}</span>
+              <span class="text-lime-400 font-mono font-black text-lg">${topVal}</span>
             </div>
 
             <div class="space-y-1 mt-3">
@@ -515,9 +530,10 @@
         let listHtml = '';
         if (ranks[aw.id]) {
           ranks[aw.id].forEach((p, i) => {
+            let statVal = getStatValForAward(aw.id, p);
             listHtml += `<div class="flex justify-between text-xs py-1.5 border-b border-slate-700/40">
               <span class="text-slate-200 font-semibold">${i+1}. ${p.name}</span>
-              <span class="text-lime-400 font-mono font-bold">${Math.round(p.elo || p.uniquePartners || p.matches || p.upsetWins || 0)}</span>
+              <span class="text-lime-400 font-mono font-bold">${statVal}</span>
             </div>`;
           });
         }
