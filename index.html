@@ -17,8 +17,6 @@
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: #0f172a; }
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-    .fade-in { animation: fadeIn 0.5s ease-in-out; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body class="h-full flex flex-col font-sans antialiased text-slate-100 bg-slate-900">
@@ -52,7 +50,7 @@
     </div>
   </div>
 
-  <!-- Header Navigation -->
+  <!-- Header Navigation with Icons -->
   <header class="bg-slate-950/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
       <div class="flex items-center gap-3">
@@ -62,12 +60,12 @@
         <span class="font-black text-lg sm:text-xl tracking-tight text-white">Cwood Badminton <span class="text-lime-400">Stats</span></span>
         <span id="badge-view-mode" class="px-2 py-0.5 rounded-full text-[10px] font-bold border bg-slate-800 text-slate-400 border-slate-700">Public View</span>
       </div>
-      <nav class="hidden md:flex space-x-2">
-        <button onclick="switchTab('leaderboard')" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold hover:bg-slate-800 text-slate-300">Standings</button>
-        <button onclick="switchTab('record')" class="nav-btn admin-only hidden px-3 py-2 rounded-lg text-sm font-semibold hover:bg-slate-800 text-slate-300">Record Score</button>
-        <button onclick="switchTab('profiles')" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold hover:bg-slate-800 text-slate-300">Player Stats</button>
-        <button onclick="switchTab('awards')" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold hover:bg-slate-800 text-slate-300">Awards</button>
-        <button onclick="switchTab('manage')" class="nav-btn admin-only hidden px-3 py-2 rounded-lg text-sm font-semibold hover:bg-slate-800 text-slate-300">Roster & Log</button>
+      <nav class="hidden md:flex space-x-1">
+        <button onclick="switchTab('leaderboard')" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold hover:bg-slate-800 text-slate-300 flex items-center gap-2"><i class="fa-solid fa-ranking-star text-lime-400"></i> Standings</button>
+        <button onclick="switchTab('record')" class="nav-btn admin-only hidden px-3 py-2 rounded-lg text-sm font-semibold hover:bg-slate-800 text-slate-300 flex items-center gap-2"><i class="fa-solid fa-clipboard-check text-lime-400"></i> Record Score</button>
+        <button onclick="switchTab('profiles')" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold hover:bg-slate-800 text-slate-300 flex items-center gap-2"><i class="fa-solid fa-id-card text-lime-400"></i> Player Stats</button>
+        <button onclick="switchTab('awards')" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold hover:bg-slate-800 text-slate-300 flex items-center gap-2"><i class="fa-solid fa-trophy text-amber-400"></i> Awards</button>
+        <button onclick="switchTab('manage')" class="nav-btn admin-only hidden px-3 py-2 rounded-lg text-sm font-semibold hover:bg-slate-800 text-slate-300 flex items-center gap-2"><i class="fa-solid fa-gear text-slate-400"></i> Roster & Log</button>
       </nav>
       <button id="btn-auth-toggle" onclick="handleAuthToggle()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold px-3 py-1.5 rounded-lg text-xs">Admin</button>
     </div>
@@ -75,36 +73,16 @@
 
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6 space-y-8">
     
-    <!-- STANDINGS SECTION -->
+    <!-- STANDINGS SECTION (Award Leaders Spotlight with Top 10 List) -->
     <section id="section-leaderboard" class="space-y-6">
-      <div class="bg-slate-800/90 border border-slate-700 rounded-2xl p-5 shadow-xl">
-        <h2 class="text-2xl font-extrabold text-white mb-4"><i class="fa-solid fa-ranking-star text-lime-400"></i> League Standings & Elo Ratings</h2>
-        <div class="overflow-x-auto rounded-xl border border-slate-700">
-          <table class="w-full text-left">
-            <thead>
-              <tr class="bg-slate-900 text-xs font-bold text-slate-400 uppercase border-b border-slate-700">
-                <th class="py-3 px-4 text-center">Rank</th>
-                <th class="py-3 px-4">Player</th>
-                <th class="py-3 px-4 text-center">Elo Rating</th>
-                <th class="py-3 px-4 text-center">Matches</th>
-                <th class="py-3 px-4 text-center">W - L</th>
-                <th class="py-3 px-4 text-center">Win %</th>
-              </tr>
-            </thead>
-            <tbody id="leaderboard-body" class="divide-y divide-slate-700 text-sm font-medium"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Cycling Award Leaders Carousel on Homepage -->
-      <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-xl space-y-4">
+      <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-xl space-y-6">
         <div class="flex items-center justify-between border-b border-slate-700 pb-3">
-          <h3 class="text-xl font-extrabold text-white flex items-center gap-2">
-            <i class="fa-solid fa-trophy text-amber-400"></i> Award Leaders Spotlight
-          </h3>
-          <button onclick="switchTab('awards')" class="text-xs text-lime-400 font-bold hover:underline">View All Awards & Top 10s &rarr;</button>
+          <h2 class="text-2xl font-extrabold text-white flex items-center gap-2">
+            <i class="fa-solid fa-trophy text-amber-400"></i> Award Leaders Spotlight & Top Rankings
+          </h2>
+          <button onclick="switchTab('awards')" class="text-xs text-lime-400 font-bold hover:underline">View All Details &rarr;</button>
         </div>
-        <div id="embedded-award-cycling" class="bg-slate-900/60 border border-slate-700/80 rounded-xl p-6 text-center space-y-3 fade-in"></div>
+        <div id="award-spotlight-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
       </div>
     </section>
 
@@ -122,8 +100,6 @@
         </div>
 
         <form id="match-form" onsubmit="handleMatchSubmit(event)" class="space-y-6">
-          
-          <!-- Winner Left / Loser Right Grid -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             
             <!-- WINNING TEAM (LEFT) -->
@@ -138,7 +114,6 @@
                 <div><label class="block text-xs text-slate-400 mb-1">Player 2</label><select id="t1p2" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white"></select></div>
               </div>
 
-              <!-- Winner Score Controls (Defaults to 21) -->
               <div class="pt-2 border-t border-slate-800 text-center">
                 <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Winner Score</label>
                 <div class="flex items-center justify-center gap-3">
@@ -161,7 +136,6 @@
                 <div><label class="block text-xs text-slate-400 mb-1">Player 2</label><select id="t2p2" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white"></select></div>
               </div>
 
-              <!-- Loser Score Controls (Defaults to 18) -->
               <div class="pt-2 border-t border-slate-800 text-center">
                 <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Runner-Up Score</label>
                 <div class="flex items-center justify-center gap-3">
@@ -216,8 +190,7 @@
   <script>
     var GH_OWNER = "nz-gitweb", GH_REPO = "cwood-badminton", GH_FILE_PATH = "data.json";
     
-    // Paste your two Base64 token halves here:
-    var part1 = "Z2l0aHViX3BhdF8xMUNSWjVPQ0kwakNKQlJvUU9LNlZ1X3FGWGREV2", part2 = "x0QTdwN2tTVnlLZVVBeTFYbk15M1ZHSzVCT3k4d2RmOUMxdUE3TjVITEdYTHVIS3Q3bkRo"; // Replace with your token parts
+  var part1 = "Z2l0aHViX3BhdF8xMUNSWjVPQ0kwakNKQlJvUU9LNlZ1X3FGWGREV2", part2 = "x0QTdwN2tTVnlLZVVBeTFYbk15M1ZHSzVCT3k4d2RmOUMxdUE3TjVITEdYTHVIS3Q3bkRo"; // Replace with your token parts
 
     function getGitHubToken() { return atob(part1 + part2); }
 
@@ -241,8 +214,8 @@
     function initData() {
       fetch("https://raw.githubusercontent.com/" + GH_OWNER + "/" + GH_REPO + "/main/" + GH_FILE_PATH + "?t=" + Date.now())
         .then(res => res.json())
-        .then(data => { window.state.players = data.players || SEED_PLAYERS; window.state.matches = data.matches || []; refreshAllViews(); startAwardCarousel(); })
-        .catch(() => { window.state.players = SEED_PLAYERS; window.state.matches = []; refreshAllViews(); startAwardCarousel(); });
+        .then(data => { window.state.players = data.players || SEED_PLAYERS; window.state.matches = data.matches || []; refreshAllViews(); })
+        .catch(() => { window.state.players = SEED_PLAYERS; window.state.matches = []; refreshAllViews(); });
     }
 
     function commitToGitHub(updatedData, cb) {
@@ -310,81 +283,60 @@
 
     function refreshAllViews() {
       recalculateAllStats();
-      renderLeaderboard();
+      renderAwardSpotlight();
       renderAwardsPage();
       renderPlayerDirectory();
       renderManageTab();
       populateDropdowns();
     }
 
-    function renderLeaderboard() {
-      let html = '';
-      window.state.computedPlayers.forEach((p, idx) => {
-        html += `<tr class="hover:bg-slate-700/30">
-          <td class="py-3 px-4 text-center font-bold text-slate-400">#${idx+1}</td>
-          <td class="py-3 px-4 font-bold text-white">${p.name}</td>
-          <td class="py-3 px-4 text-center font-mono font-bold text-lime-400">${Math.round(p.elo)}</td>
-          <td class="py-3 px-4 text-center text-slate-300">${p.matches}</td>
-          <td class="py-3 px-4 text-center text-slate-300">${p.wins} - ${p.losses}</td>
-          <td class="py-3 px-4 text-center text-slate-200">${Math.round(p.winRate*100)}%</td>
-        </tr>`;
-      });
-      document.getElementById('leaderboard-body').innerHTML = html || '<tr><td colspan="6" class="text-center py-4 text-slate-400">No players found</td></tr>';
-    }
-
-    let activeCarouselIdx = 0;
-    function startAwardCarousel() {
-      setInterval(() => {
-        let container = document.getElementById('embedded-award-cycling');
-        if (!container || !window.state.computedRankings.mvp) return;
-        activeCarouselIdx = (activeCarouselIdx + 1) % AWARDS_LIST.length;
-        let aw = AWARDS_LIST[activeCarouselIdx];
-        let topList = window.state.computedRankings[aw.id] || [];
-        let leader = topList[0] ? topList[0].name : 'N/A';
-        
-        container.className = "bg-slate-900/60 border border-slate-700/80 rounded-xl p-6 text-center space-y-2 fade-in";
-        container.innerHTML = `
-          <div class="text-3xl">${aw.icon}</div>
-          <div class="text-xs font-bold text-lime-400 uppercase tracking-wider">${aw.title}</div>
-          <div class="text-2xl font-black text-white">${leader}</div>
-          <p class="text-xs text-slate-400">${aw.desc}</p>
-        `;
-      }, 4000);
-
-      let container = document.getElementById('embedded-award-cycling');
-      if (container && window.state.computedRankings.mvp) {
-        let aw = AWARDS_LIST[0];
-        let leader = window.state.computedRankings[aw.id][0] ? window.state.computedRankings[aw.id][0].name : 'N/A';
-        container.innerHTML = `
-          <div class="text-3xl">${aw.icon}</div>
-          <div class="text-xs font-bold text-lime-400 uppercase tracking-wider">${aw.title}</div>
-          <div class="text-2xl font-black text-white">${leader}</div>
-          <p class="text-xs text-slate-400">${aw.desc}</p>
-        `;
-      }
-    }
-
-    function renderAwardsPage() {
+    function renderAwardSpotlight() {
       let ranks = window.state.computedRankings;
       let html = '';
       AWARDS_LIST.forEach(aw => {
-        let listHtml = '';
-        if (ranks[aw.id]) {
-          ranks[aw.id].slice(0, 10).forEach((p, i) => {
-            listHtml += `<div class="flex justify-between text-xs py-1.5 border-b border-slate-700/40"><span class="text-slate-200 font-semibold">#${i+1} ${p.name}</span><span class="text-lime-400 font-mono font-bold">${Math.round(p.elo || p.matches || p.ratio || 0)}</span></div>`;
-          });
-        }
-        html += `<div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4 shadow-xl flex flex-col justify-between">
+        let list = ranks[aw.id] || [];
+        let topPlayer = list[0];
+        let nextTen = list.slice(1, 11);
+
+        let nextTenHtml = '';
+        nextTen.forEach((p, i) => {
+          nextTenHtml += `<div class="flex justify-between text-xs py-1 border-b border-slate-700/40">
+            <span class="text-slate-300">#${i+2} ${p.name}</span>
+            <span class="text-lime-400 font-mono font-bold">${Math.round(p.elo || p.matches || p.ratio || 0)}</span>
+          </div>`;
+        });
+
+        html += `<div class="bg-slate-900/60 border border-slate-700 rounded-2xl p-5 space-y-4 shadow-xl flex flex-col justify-between">
           <div>
-            <div class="text-3xl">${aw.icon}</div>
-            <h3 class="text-xl font-black text-white mt-1">${aw.title}</h3>
-            <p class="text-xs text-slate-400">${aw.desc}</p>
-            <div class="mt-4 space-y-1 bg-slate-900/50 p-3 rounded-xl border border-slate-700/60">${listHtml || '<div class="text-xs text-slate-500">No data yet</div>'}</div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl">${aw.icon}</span>
+              <div>
+                <h3 class="text-base font-black text-white">${aw.title}</h3>
+                <p class="text-[11px] text-slate-400">${aw.desc}</p>
+              </div>
+            </div>
+
+            <!-- Highlighted Top Player -->
+            <div class="bg-gradient-to-r from-amber-500/20 to-lime-500/20 border border-amber-500/40 rounded-xl p-3 flex justify-between items-center my-3">
+              <div>
+                <span class="text-[10px] font-bold text-amber-400 uppercase tracking-widest block"><i class="fa-solid fa-crown"></i> Current Leader</span>
+                <span class="text-base font-black text-white">${topPlayer ? topPlayer.name : 'N/A'}</span>
+              </div>
+              <span class="text-lime-400 font-mono font-black text-lg">${topPlayer ? Math.round(topPlayer.elo || topPlayer.matches || topPlayer.ratio || 0) : ''}</span>
+            </div>
+
+            <!-- Next 10 Players -->
+            <div class="space-y-1 mt-3">
+              <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Runner-Ups</div>
+              ${nextTenHtml || '<div class="text-xs text-slate-500 py-2 text-center">No other ranked players yet</div>'}
+            </div>
           </div>
         </div>`;
       });
-      document.getElementById('awards-grid').innerHTML = html;
+      document.getElementById('award-spotlight-grid').innerHTML = html;
     }
+
+    function renderAwardsPage() { renderAwardSpotlight(); }
 
     function renderPlayerDirectory() {
       let sortedByName = [...window.state.computedPlayers].sort((a,b) => a.name.localeCompare(b.name));
