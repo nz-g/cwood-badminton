@@ -50,7 +50,7 @@
     </div>
   </div>
 
-  <!-- Header Navigation with Icons -->
+  <!-- Header Navigation -->
   <header class="bg-slate-950/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
       <div class="flex items-center gap-3">
@@ -73,8 +73,10 @@
 
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6 space-y-8">
     
-    <!-- STANDINGS SECTION (Award Leaders Spotlight with Top 10 List) -->
-    <section id="section-leaderboard" class="space-y-6">
+    <!-- STANDINGS SECTION -->
+    <section id="section-leaderboard" class="space-y-8">
+      
+      <!-- Award Leaders Spotlight (Ordered: MVP, Social, Iron, Underdog, Streak, Improved) -->
       <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-xl space-y-6">
         <div class="flex items-center justify-between border-b border-slate-700 pb-3">
           <h2 class="text-2xl font-extrabold text-white flex items-center gap-2">
@@ -84,6 +86,36 @@
         </div>
         <div id="award-spotlight-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
       </div>
+
+      <!-- AGE BRACKET ELO LEADERBOARDS -->
+      <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-xl space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-700 pb-3 gap-2">
+          <h2 class="text-2xl font-extrabold text-white flex items-center gap-2">
+            <i class="fa-solid fa-users text-teal-400"></i> Elo Rankings by Age Group
+          </h2>
+          <!-- Age Group Filters -->
+          <div id="age-filter-buttons" class="flex flex-wrap gap-1.5">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-slate-700">
+          <table class="w-full text-left">
+            <thead>
+              <tr class="bg-slate-900 text-xs font-bold text-slate-400 uppercase border-b border-slate-700">
+                <th class="py-3 px-4 text-center">Group Rank</th>
+                <th class="py-3 px-4">Player</th>
+                <th class="py-3 px-4 text-center">Age</th>
+                <th class="py-3 px-4 text-center">Elo Rating</th>
+                <th class="py-3 px-4 text-center">Matches</th>
+                <th class="py-3 px-4 text-center">W - L</th>
+              </tr>
+            </thead>
+            <tbody id="age-leaderboard-body" class="divide-y divide-slate-700 text-sm font-medium"></tbody>
+          </table>
+        </div>
+      </div>
+
     </section>
 
     <!-- RECORD MATCH SECTION -->
@@ -172,9 +204,12 @@
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-xl space-y-4">
           <h3 class="text-lg font-extrabold text-white"><i class="fa-solid fa-user-plus text-lime-400"></i> Add New Player</h3>
-          <form onsubmit="handleAddPlayer(event)" class="flex gap-2">
-            <input type="text" id="new-player-name" placeholder="Full name..." required class="flex-1 bg-slate-900 border border-slate-700 text-sm rounded-lg px-3 py-2 text-white">
-            <button type="submit" class="bg-lime-400 text-slate-950 font-bold px-3 py-2 rounded-lg text-sm">Add</button>
+          <form onsubmit="handleAddPlayer(event)" class="space-y-3">
+            <input type="text" id="new-player-name" placeholder="Full name..." required class="w-full bg-slate-900 border border-slate-700 text-sm rounded-lg px-3 py-2 text-white">
+            <div class="flex gap-2">
+              <input type="number" id="new-player-age" placeholder="Age" min="5" max="99" required class="w-24 bg-slate-900 border border-slate-700 text-sm rounded-lg px-3 py-2 text-white">
+              <button type="submit" class="flex-1 bg-lime-400 text-slate-950 font-bold px-3 py-2 rounded-lg text-sm">Add Player</button>
+            </div>
           </form>
           <div id="manage-roster-list" class="space-y-1.5 max-h-[320px] overflow-y-auto pr-1"></div>
         </div>
@@ -190,25 +225,41 @@
   <script>
     var GH_OWNER = "nz-gitweb", GH_REPO = "cwood-badminton", GH_FILE_PATH = "data.json";
     
-  var part1 = "Z2l0aHViX3BhdF8xMUNSWjVPQ0kwakNKQlJvUU9LNlZ1X3FGWGREV2", part2 = "x0QTdwN2tTVnlLZVVBeTFYbk15M1ZHSzVCT3k4d2RmOUMxdUE3TjVITEdYTHVIS3Q3bkRo"; // Replace with your token parts
+   var part1 = "Z2l0aHViX3BhdF8xMUNSWjVPQ0kwakNKQlJvUU9LNlZ1X3FGWGREV2", part2 = "x0QTdwN2tTVnlLZVVBeTFYbk15M1ZHSzVCT3k4d2RmOUMxdUE3TjVITEdYTHVIS3Q3bkRo"; // Replace with your token parts
+
 
     function getGitHubToken() { return atob(part1 + part2); }
 
     var SEED_PLAYERS = [
-      { id: "p1", name: "Adam" }, { id: "p2", name: "Paul" }, { id: "p3", name: "Vince" }, { id: "p4", name: "Truc" },
-      { id: "p5", name: "Phil" }, { id: "p6", name: "Max" }, { id: "p7", name: "Jay" }, { id: "p8", name: "Kylie" },
-      { id: "p9", name: "Jessie" }, { id: "p10", name: "Abe" }, { id: "p11", name: "Logan" }, { id: "p12", name: "Bruce" }
+      { id: "p1", name: "Adam", age: 28 }, { id: "p2", name: "Paul", age: 34 }, { id: "p3", name: "Vince", age: 31 }, 
+      { id: "p4", name: "Truc", age: 29 }, { id: "p5", name: "Phil", age: 42 }, { id: "p6", name: "Max", age: 19 },
+      { id: "p7", name: "Jay", age: 37 }, { id: "p8", name: "Kylie", age: 25 }, { id: "p9", name: "Jessie", age: 33 }, 
+      { id: "p10", name: "Abe", age: 45 }, { id: "p11", name: "Logan", age: 16 }, { id: "p12", name: "Bruce", age: 62 }
     ];
 
-    window.state = { players: [], matches: [], computedPlayers: [], computedRankings: {}, isAdmin: false };
+    window.state = { players: [], matches: [], computedPlayers: [], computedRankings: {}, isAdmin: false, activeAgeGroup: "all" };
+    
+    // Ordered awards: MVP, Social, Iron, Underdog, Streak, Improved
     var AWARDS_LIST = [
       { id: "mvp", title: "League MVP", icon: "🏆", desc: "Highest Elo rating performance." },
-      { id: "improved", title: "Most Improved", icon: "📈", desc: "Highest net gain in Elo rating." },
-      { id: "defense", title: "Defensive Wall", icon: "🛡️", desc: "Highest ratio of points scored vs conceded." },
-      { id: "streak", title: "Streak Master", icon: "⚡", desc: "Longest consecutive match win streak." },
-      { id: "clutch", title: "Clutch Performer", icon: "🎯", desc: "Highest win % in close games (<= 2 pts diff)." },
+      { id: "social", title: "Most Social", icon: "🤝", desc: "Partnered with the most unique teammates." },
       { id: "iron", title: "Iron Player", icon: "🔥", desc: "Most matches attended and played." },
-      { id: "social", title: "Most Social", icon: "🤝", desc: "Partnered with the most unique teammates." }
+      { id: "underdog", title: "Underdog Champion", icon: "🐶", desc: "Most upset wins against higher-ranked teams." },
+      { id: "streak", title: "Streak Master", icon: "⚡", desc: "Longest consecutive match win streak." },
+      { id: "improved", title: "Most Improved", icon: "📈", desc: "Highest net gain in Elo rating." }
+    ];
+
+    var AGE_GROUPS = [
+      { id: "all", label: "All Ages" },
+      { id: "5-15", min: 5, max: 15, label: "5-15" },
+      { id: "15-20", min: 15, max: 20, label: "15-20" },
+      { id: "20-30", min: 20, max: 30, label: "20-30" },
+      { id: "30-40", min: 30, max: 40, label: "30-40" },
+      { id: "40-50", min: 40, max: 50, label: "40-50" },
+      { id: "50-60", min: 50, max: 60, label: "50-60" },
+      { id: "60-70", min: 60, max: 70, label: "60-70" },
+      { id: "70-80", min: 70, max: 80, label: "70-80" },
+      { id: "80-90", min: 80, max: 90, label: "80-90" }
     ];
 
     function initData() {
@@ -235,26 +286,42 @@
     function recalculateAllStats() {
       let map = {};
       window.state.players.forEach(p => {
-        map[p.id] = { id: p.id, name: p.name, elo: 1000, matches: 0, wins: 0, losses: 0, ptsFor: 0, ptsAg: 0, streak: 0, maxStreak: 0, partners: new Set(), closeWins: 0, closeTot: 0 };
+        map[p.id] = { 
+          id: p.id, name: p.name, age: p.age || 25, elo: 1000, matches: 0, wins: 0, losses: 0, 
+          ptsFor: 0, ptsAg: 0, streak: 0, maxStreak: 0, partners: new Set(), upsetWins: 0 
+        };
       });
 
       window.state.matches.forEach(m => {
         let t1 = m.team1, t2 = m.team2, s = m.scores[0], t1Won = s.a > s.b;
-        let isClose = Math.abs(s.a - s.b) <= 2;
+        let winningTeam = t1Won ? t1 : t2;
+        let losingTeam = t1Won ? t2 : t1;
+
+        let avgEloWin = (map[winningTeam[0]].elo + map[winningTeam[1]].elo) / 2;
+        let avgEloLoss = (map[losingTeam[0]].elo + map[losingTeam[1]].elo) / 2;
+        let isUpset = avgEloLoss > avgEloWin;
+
         t1.forEach(id => {
           if (!map[id]) return;
           map[id].matches++; map[id].ptsFor += s.a; map[id].ptsAg += s.b;
-          if (t1Won) { map[id].wins++; map[id].streak++; if (map[id].streak > map[id].maxStreak) map[id].maxStreak = map[id].streak; map[id].elo += 16; }
-          else { map[id].losses++; map[id].streak = 0; map[id].elo -= 16; }
-          if (isClose) { map[id].closeTot++; if (t1Won) map[id].closeWins++; }
+          if (t1Won) { 
+            map[id].wins++; map[id].streak++; 
+            if (map[id].streak > map[id].maxStreak) map[id].maxStreak = map[id].streak; 
+            if (isUpset) map[id].upsetWins++;
+            map[id].elo += 16; 
+          } else { map[id].losses++; map[id].streak = 0; map[id].elo -= 16; }
           t1.forEach(pId => { if (pId !== id) map[id].partners.add(pId); });
         });
+
         t2.forEach(id => {
           if (!map[id]) return;
           map[id].matches++; map[id].ptsFor += s.b; map[id].ptsAg += s.a;
-          if (!t1Won) { map[id].wins++; map[id].streak++; if (map[id].streak > map[id].maxStreak) map[id].maxStreak = map[id].streak; map[id].elo += 16; }
-          else { map[id].losses++; map[id].streak = 0; map[id].elo -= 16; }
-          if (isClose) { map[id].closeTot++; if (!t1Won) map[id].closeWins++; }
+          if (!t1Won) { 
+            map[id].wins++; map[id].streak++; 
+            if (map[id].streak > map[id].maxStreak) map[id].maxStreak = map[id].streak; 
+            if (isUpset) map[id].upsetWins++;
+            map[id].elo += 16; 
+          } else { map[id].losses++; map[id].streak = 0; map[id].elo -= 16; }
           t2.forEach(pId => { if (pId !== id) map[id].partners.add(pId); });
         });
       });
@@ -262,21 +329,19 @@
       let arr = Object.values(map).map(p => {
         p.winRate = p.matches > 0 ? p.wins / p.matches : 0;
         p.ratio = p.ptsAg > 0 ? p.ptsFor / p.ptsAg : p.ptsFor;
-        p.clutchPct = p.closeTot > 0 ? p.closeWins / p.closeTot : 0;
         p.uniquePartners = p.partners.size;
         return p;
       });
 
       let rMvp = [...arr].sort((a,b) => b.elo - a.elo);
-      let rImp = [...arr].sort((a,b) => (b.elo - 1000) - (a.elo - 1000));
-      let rDef = [...arr].sort((a,b) => b.ratio - a.ratio);
-      let rStr = [...arr].sort((a,b) => b.maxStreak - a.maxStreak);
-      let rClu = [...arr].sort((a,b) => b.clutchPct - a.clutchPct);
-      let rIrn = [...arr].sort((a,b) => b.matches - a.matches);
       let rSoc = [...arr].sort((a,b) => b.uniquePartners - a.uniquePartners);
+      let rIrn = [...arr].sort((a,b) => b.matches - a.matches);
+      let rUnd = [...arr].sort((a,b) => b.upsetWins - a.upsetWins);
+      let rStr = [...arr].sort((a,b) => b.maxStreak - a.maxStreak);
+      let rImp = [...arr].sort((a,b) => (b.elo - 1000) - (a.elo - 1000));
 
       window.state.computedRankings = {
-        mvp: rMvp, improved: rImp, defense: rDef, streak: rStr, clutch: rClu, iron: rIrn, social: rSoc
+        mvp: rMvp, social: rSoc, iron: rIrn, underdog: rUnd, streak: rStr, improved: rImp
       };
       window.state.computedPlayers = rMvp;
     }
@@ -284,6 +349,8 @@
     function refreshAllViews() {
       recalculateAllStats();
       renderAwardSpotlight();
+      renderAgeFilterButtons();
+      renderAgeLeaderboard();
       renderAwardsPage();
       renderPlayerDirectory();
       renderManageTab();
@@ -301,8 +368,8 @@
         let nextTenHtml = '';
         nextTen.forEach((p, i) => {
           nextTenHtml += `<div class="flex justify-between text-xs py-1 border-b border-slate-700/40">
-            <span class="text-slate-300">#${i+2} ${p.name}</span>
-            <span class="text-lime-400 font-mono font-bold">${Math.round(p.elo || p.matches || p.ratio || 0)}</span>
+            <span class="text-slate-300">#${i+2} ${p.name} <span class="text-[10px] text-slate-500">(${p.age}y)</span></span>
+            <span class="text-lime-400 font-mono font-bold">${Math.round(p.elo || p.uniquePartners || p.matches || p.upsetWins || 0)}</span>
           </div>`;
         });
 
@@ -316,24 +383,62 @@
               </div>
             </div>
 
-            <!-- Highlighted Top Player -->
             <div class="bg-gradient-to-r from-amber-500/20 to-lime-500/20 border border-amber-500/40 rounded-xl p-3 flex justify-between items-center my-3">
               <div>
                 <span class="text-[10px] font-bold text-amber-400 uppercase tracking-widest block"><i class="fa-solid fa-crown"></i> Current Leader</span>
-                <span class="text-base font-black text-white">${topPlayer ? topPlayer.name : 'N/A'}</span>
+                <span class="text-base font-black text-white">${topPlayer ? topPlayer.name : 'N/A'} <span class="text-xs font-normal text-slate-400">(${topPlayer ? topPlayer.age : ''}y)</span></span>
               </div>
-              <span class="text-lime-400 font-mono font-black text-lg">${topPlayer ? Math.round(topPlayer.elo || topPlayer.matches || topPlayer.ratio || 0) : ''}</span>
+              <span class="text-lime-400 font-mono font-black text-lg">${topPlayer ? Math.round(topPlayer.elo || topPlayer.uniquePartners || topPlayer.matches || topPlayer.upsetWins || 0) : ''}</span>
             </div>
 
-            <!-- Next 10 Players -->
             <div class="space-y-1 mt-3">
-              <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Runner-Ups</div>
+              <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Runner-Ups (Top 10)</div>
               ${nextTenHtml || '<div class="text-xs text-slate-500 py-2 text-center">No other ranked players yet</div>'}
             </div>
           </div>
         </div>`;
       });
       document.getElementById('award-spotlight-grid').innerHTML = html;
+    }
+
+    function renderAgeFilterButtons() {
+      let html = '';
+      AGE_GROUPS.forEach(g => {
+        let active = window.state.activeAgeGroup === g.id;
+        html += `<button onclick="setAgeGroupFilter('${g.id}')" class="px-3 py-1 rounded-lg text-xs font-bold border transition-all ${active ? 'bg-lime-400 text-slate-950 border-lime-400' : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-white'}">${g.label}</button>`;
+      });
+      document.getElementById('age-filter-buttons').innerHTML = html;
+    }
+
+    function setAgeGroupFilter(groupId) {
+      window.state.activeAgeGroup = groupId;
+      renderAgeFilterButtons();
+      renderAgeLeaderboard();
+    }
+
+    function renderAgeLeaderboard() {
+      let filtered = [...window.state.computedPlayers];
+      let curr = window.state.activeAgeGroup;
+
+      if (curr !== 'all') {
+        let groupObj = AGE_GROUPS.find(g => g.id === curr);
+        if (groupObj) {
+          filtered = filtered.filter(p => p.age >= groupObj.min && p.age <= groupObj.max);
+        }
+      }
+
+      let html = '';
+      filtered.forEach((p, idx) => {
+        html += `<tr class="hover:bg-slate-700/30">
+          <td class="py-3 px-4 text-center font-bold text-slate-400">#${idx+1}</td>
+          <td class="py-3 px-4 font-bold text-white">${p.name}</td>
+          <td class="py-3 px-4 text-center text-slate-400 font-mono">${p.age}</td>
+          <td class="py-3 px-4 text-center font-mono font-bold text-lime-400">${Math.round(p.elo)}</td>
+          <td class="py-3 px-4 text-center text-slate-300">${p.matches}</td>
+          <td class="py-3 px-4 text-center text-slate-300">${p.wins} - ${p.losses}</td>
+        </tr>`;
+      });
+      document.getElementById('age-leaderboard-body').innerHTML = html || '<tr><td colspan="6" class="text-center py-6 text-slate-500">No players registered in this age group yet.</td></tr>';
     }
 
     function renderAwardsPage() { renderAwardSpotlight(); }
@@ -347,14 +452,14 @@
         let getRank = (cat) => { let idx = ranks[cat].findIndex(x => x.id === p.id); return idx !== -1 ? `#${idx+1}` : '-'; };
         html += `<div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <div>
-            <h4 class="font-bold text-white text-base">${p.name}</h4>
+            <h4 class="font-bold text-white text-base">${p.name} <span class="text-xs font-normal text-slate-400">(${p.age} years old)</span></h4>
             <p class="text-xs text-slate-400">Elo: <strong class="text-lime-400">${Math.round(p.elo)}</strong> | Record: ${p.wins}-${p.losses} (${Math.round(p.winRate*100)}%)</p>
           </div>
           <div class="flex flex-wrap gap-2 text-[11px]">
             <span class="bg-slate-800 px-2.5 py-1 rounded border border-slate-700">MVP: <strong>${getRank('mvp')}</strong></span>
-            <span class="bg-slate-800 px-2.5 py-1 rounded border border-slate-700">Defense: <strong>${getRank('defense')}</strong></span>
-            <span class="bg-slate-800 px-2.5 py-1 rounded border border-slate-700">Streak: <strong>${getRank('streak')}</strong></span>
+            <span class="bg-slate-800 px-2.5 py-1 rounded border border-slate-700">Social: <strong>${getRank('social')}</strong></span>
             <span class="bg-slate-800 px-2.5 py-1 rounded border border-slate-700">Iron: <strong>${getRank('iron')}</strong></span>
+            <span class="bg-slate-800 px-2.5 py-1 rounded border border-slate-700">Underdog: <strong>${getRank('underdog')}</strong></span>
           </div>
         </div>`;
       });
@@ -362,7 +467,7 @@
     }
 
     function populateDropdowns() {
-      let opts = '<option value="">-- Select Player --</option>' + [...window.state.players].sort((a,b)=>a.name.localeCompare(b.name)).map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+      let opts = '<option value="">-- Select Player --</option>' + [...window.state.players].sort((a,b)=>a.name.localeCompare(b.name)).map(p => `<option value="${p.id}">${p.name} (${p.age || 25})</option>`).join('');
       ['t1p1', 't1p2', 't2p1', 't2p2'].forEach(id => { let el = document.getElementById(id); if(el) el.innerHTML = opts; });
     }
 
@@ -434,10 +539,11 @@
     function handleAddPlayer(e) {
       e.preventDefault();
       let input = document.getElementById('new-player-name'), name = input.value.trim();
+      let ageInput = document.getElementById('new-player-age'), age = parseInt(ageInput.value) || 25;
       if (name) {
-        window.state.players.push({ id: 'p_' + Date.now(), name: name });
+        window.state.players.push({ id: 'p_' + Date.now(), name: name, age: age });
         commitToGitHub({ players: window.state.players, matches: window.state.matches }, function() {
-          input.value = ''; refreshAllViews(); alert(name + " added!");
+          input.value = ''; ageInput.value = ''; refreshAllViews(); alert(name + " (" + age + "y) added!");
         });
       }
     }
@@ -445,7 +551,9 @@
     function renderManageTab() {
       let rosterHtml = '';
       window.state.players.forEach(p => {
-        rosterHtml += `<div class="flex items-center justify-between bg-slate-900 p-2.5 rounded-lg border border-slate-700 text-xs"><span class="font-bold text-white">${p.name}</span></div>`;
+        rosterHtml += `<div class="flex items-center justify-between bg-slate-900 p-2.5 rounded-lg border border-slate-700 text-xs">
+          <span class="font-bold text-white">${p.name} <span class="text-slate-400 font-normal">(${p.age || 25}y)</span></span>
+        </div>`;
       });
       document.getElementById('manage-roster-list').innerHTML = rosterHtml;
 
