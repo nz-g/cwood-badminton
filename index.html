@@ -76,7 +76,7 @@
     <!-- STANDINGS SECTION -->
     <section id="section-leaderboard" class="space-y-8">
       
-      <!-- Award Leaders Spotlight (Ordered: MVP, Social, Iron, Underdog, Streak, Improved) -->
+      <!-- Award Leaders Spotlight -->
       <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-xl space-y-6">
         <div class="flex items-center justify-between border-b border-slate-700 pb-3">
           <h2 class="text-2xl font-extrabold text-white flex items-center gap-2">
@@ -91,12 +91,9 @@
       <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-xl space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-700 pb-3 gap-2">
           <h2 class="text-2xl font-extrabold text-white flex items-center gap-2">
-            <i class="fa-solid fa-users text-teal-400"></i> Elo Rankings by Age Group
+            <i class="fa-solid fa-users text-teal-400"></i> Elo Rankings by Age Bracket
           </h2>
-          <!-- Age Group Filters -->
-          <div id="age-filter-buttons" class="flex flex-wrap gap-1.5">
-            <!-- Dynamically populated -->
-          </div>
+          <div id="age-filter-buttons" class="flex flex-wrap gap-1.5"></div>
         </div>
 
         <div class="overflow-x-auto rounded-xl border border-slate-700">
@@ -105,7 +102,7 @@
               <tr class="bg-slate-900 text-xs font-bold text-slate-400 uppercase border-b border-slate-700">
                 <th class="py-3 px-4 text-center">Group Rank</th>
                 <th class="py-3 px-4">Player</th>
-                <th class="py-3 px-4 text-center">Age</th>
+                <th class="py-3 px-4 text-center">Age Bracket</th>
                 <th class="py-3 px-4 text-center">Elo Rating</th>
                 <th class="py-3 px-4 text-center">Matches</th>
                 <th class="py-3 px-4 text-center">W - L</th>
@@ -207,8 +204,19 @@
           <form onsubmit="handleAddPlayer(event)" class="space-y-3">
             <input type="text" id="new-player-name" placeholder="Full name..." required class="w-full bg-slate-900 border border-slate-700 text-sm rounded-lg px-3 py-2 text-white">
             <div class="flex gap-2">
-              <input type="number" id="new-player-age" placeholder="Age" min="5" max="99" required class="w-24 bg-slate-900 border border-slate-700 text-sm rounded-lg px-3 py-2 text-white">
-              <button type="submit" class="flex-1 bg-lime-400 text-slate-950 font-bold px-3 py-2 rounded-lg text-sm">Add Player</button>
+              <select id="new-player-age-bracket" required class="flex-1 bg-slate-900 border border-slate-700 text-sm rounded-lg px-3 py-2 text-white">
+                <option value="">Select Age Bracket</option>
+                <option value="5-15">5-15</option>
+                <option value="15-20">15-20</option>
+                <option value="20-30">20-30</option>
+                <option value="30-40">30-40</option>
+                <option value="40-50">40-50</option>
+                <option value="50-60">50-60</option>
+                <option value="60-70">60-70</option>
+                <option value="70-80">70-80</option>
+                <option value="80-90">80-90</option>
+              </select>
+              <button type="submit" class="bg-lime-400 text-slate-950 font-bold px-4 py-2 rounded-lg text-sm">Add</button>
             </div>
           </form>
           <div id="manage-roster-list" class="space-y-1.5 max-h-[320px] overflow-y-auto pr-1"></div>
@@ -225,21 +233,21 @@
   <script>
     var GH_OWNER = "nz-gitweb", GH_REPO = "cwood-badminton", GH_FILE_PATH = "data.json";
     
-   var part1 = "Z2l0aHViX3BhdF8xMUNSWjVPQ0kwakNKQlJvUU9LNlZ1X3FGWGREV2", part2 = "x0QTdwN2tTVnlLZVVBeTFYbk15M1ZHSzVCT3k4d2RmOUMxdUE3TjVITEdYTHVIS3Q3bkRo"; // Replace with your token parts
-
+    var part1 = "Z2l0aHViX3BhdF8xMUNSWjVPQ0kwakNKQlJvUU9LNlZ1X3FGWGREV2", part2 = "x0QTdwN2tTVnlLZVVBeTFYbk15M1ZHSzVCT3k4d2RmOUMxdUE3TjVITEdYTHVIS3Q3bkRo"; // Replace with your token parts
 
     function getGitHubToken() { return atob(part1 + part2); }
 
     var SEED_PLAYERS = [
-      { id: "p1", name: "Adam", age: 28 }, { id: "p2", name: "Paul", age: 34 }, { id: "p3", name: "Vince", age: 31 }, 
-      { id: "p4", name: "Truc", age: 29 }, { id: "p5", name: "Phil", age: 42 }, { id: "p6", name: "Max", age: 19 },
-      { id: "p7", name: "Jay", age: 37 }, { id: "p8", name: "Kylie", age: 25 }, { id: "p9", name: "Jessie", age: 33 }, 
-      { id: "p10", name: "Abe", age: 45 }, { id: "p11", name: "Logan", age: 16 }, { id: "p12", name: "Bruce", age: 62 }
+      { id: "p1", name: "Adam", ageBracket: "20-30" }, { id: "p2", name: "Paul", ageBracket: "30-40" }, 
+      { id: "p3", name: "Vince", ageBracket: "30-40" }, { id: "p4", name: "Truc", ageBracket: "20-30" }, 
+      { id: "p5", name: "Phil", ageBracket: "40-50" }, { id: "p6", name: "Max", ageBracket: "15-20" },
+      { id: "p7", name: "Jay", ageBracket: "30-40" }, { id: "p8", name: "Kylie", ageBracket: "20-30" }, 
+      { id: "p9", name: "Jessie", ageBracket: "30-40" }, { id: "p10", name: "Abe", ageBracket: "40-50" }, 
+      { id: "p11", name: "Logan", ageBracket: "15-20" }, { id: "p12", name: "Bruce", ageBracket: "60-70" }
     ];
 
     window.state = { players: [], matches: [], computedPlayers: [], computedRankings: {}, isAdmin: false, activeAgeGroup: "all" };
     
-    // Ordered awards: MVP, Social, Iron, Underdog, Streak, Improved
     var AWARDS_LIST = [
       { id: "mvp", title: "League MVP", icon: "🏆", desc: "Highest Elo rating performance." },
       { id: "social", title: "Most Social", icon: "🤝", desc: "Partnered with the most unique teammates." },
@@ -251,15 +259,15 @@
 
     var AGE_GROUPS = [
       { id: "all", label: "All Ages" },
-      { id: "5-15", min: 5, max: 15, label: "5-15" },
-      { id: "15-20", min: 15, max: 20, label: "15-20" },
-      { id: "20-30", min: 20, max: 30, label: "20-30" },
-      { id: "30-40", min: 30, max: 40, label: "30-40" },
-      { id: "40-50", min: 40, max: 50, label: "40-50" },
-      { id: "50-60", min: 50, max: 60, label: "50-60" },
-      { id: "60-70", min: 60, max: 70, label: "60-70" },
-      { id: "70-80", min: 70, max: 80, label: "70-80" },
-      { id: "80-90", min: 80, max: 90, label: "80-90" }
+      { id: "5-15", label: "5-15" },
+      { id: "15-20", label: "15-20" },
+      { id: "20-30", label: "20-30" },
+      { id: "30-40", label: "30-40" },
+      { id: "40-50", label: "40-50" },
+      { id: "50-60", label: "50-60" },
+      { id: "60-70", label: "60-70" },
+      { id: "70-80", label: "70-80" },
+      { id: "80-90", label: "80-90" }
     ];
 
     function initData() {
@@ -287,7 +295,7 @@
       let map = {};
       window.state.players.forEach(p => {
         map[p.id] = { 
-          id: p.id, name: p.name, age: p.age || 25, elo: 1000, matches: 0, wins: 0, losses: 0, 
+          id: p.id, name: p.name, ageBracket: p.ageBracket || "20-30", elo: 1000, matches: 0, wins: 0, losses: 0, 
           ptsFor: 0, ptsAg: 0, streak: 0, maxStreak: 0, partners: new Set(), upsetWins: 0 
         };
       });
@@ -368,7 +376,7 @@
         let nextTenHtml = '';
         nextTen.forEach((p, i) => {
           nextTenHtml += `<div class="flex justify-between text-xs py-1 border-b border-slate-700/40">
-            <span class="text-slate-300">#${i+2} ${p.name} <span class="text-[10px] text-slate-500">(${p.age}y)</span></span>
+            <span class="text-slate-300">#${i+2} ${p.name}</span>
             <span class="text-lime-400 font-mono font-bold">${Math.round(p.elo || p.uniquePartners || p.matches || p.upsetWins || 0)}</span>
           </div>`;
         });
@@ -386,7 +394,7 @@
             <div class="bg-gradient-to-r from-amber-500/20 to-lime-500/20 border border-amber-500/40 rounded-xl p-3 flex justify-between items-center my-3">
               <div>
                 <span class="text-[10px] font-bold text-amber-400 uppercase tracking-widest block"><i class="fa-solid fa-crown"></i> Current Leader</span>
-                <span class="text-base font-black text-white">${topPlayer ? topPlayer.name : 'N/A'} <span class="text-xs font-normal text-slate-400">(${topPlayer ? topPlayer.age : ''}y)</span></span>
+                <span class="text-base font-black text-white">${topPlayer ? topPlayer.name : 'N/A'}</span>
               </div>
               <span class="text-lime-400 font-mono font-black text-lg">${topPlayer ? Math.round(topPlayer.elo || topPlayer.uniquePartners || topPlayer.matches || topPlayer.upsetWins || 0) : ''}</span>
             </div>
@@ -421,10 +429,7 @@
       let curr = window.state.activeAgeGroup;
 
       if (curr !== 'all') {
-        let groupObj = AGE_GROUPS.find(g => g.id === curr);
-        if (groupObj) {
-          filtered = filtered.filter(p => p.age >= groupObj.min && p.age <= groupObj.max);
-        }
+        filtered = filtered.filter(p => p.ageBracket === curr);
       }
 
       let html = '';
@@ -432,13 +437,13 @@
         html += `<tr class="hover:bg-slate-700/30">
           <td class="py-3 px-4 text-center font-bold text-slate-400">#${idx+1}</td>
           <td class="py-3 px-4 font-bold text-white">${p.name}</td>
-          <td class="py-3 px-4 text-center text-slate-400 font-mono">${p.age}</td>
+          <td class="py-3 px-4 text-center text-slate-400 font-mono">${p.ageBracket || 'N/A'}</td>
           <td class="py-3 px-4 text-center font-mono font-bold text-lime-400">${Math.round(p.elo)}</td>
           <td class="py-3 px-4 text-center text-slate-300">${p.matches}</td>
           <td class="py-3 px-4 text-center text-slate-300">${p.wins} - ${p.losses}</td>
         </tr>`;
       });
-      document.getElementById('age-leaderboard-body').innerHTML = html || '<tr><td colspan="6" class="text-center py-6 text-slate-500">No players registered in this age group yet.</td></tr>';
+      document.getElementById('age-leaderboard-body').innerHTML = html || '<tr><td colspan="6" class="text-center py-6 text-slate-500">No players registered in this age bracket yet.</td></tr>';
     }
 
     function renderAwardsPage() { renderAwardSpotlight(); }
@@ -452,7 +457,7 @@
         let getRank = (cat) => { let idx = ranks[cat].findIndex(x => x.id === p.id); return idx !== -1 ? `#${idx+1}` : '-'; };
         html += `<div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <div>
-            <h4 class="font-bold text-white text-base">${p.name} <span class="text-xs font-normal text-slate-400">(${p.age} years old)</span></h4>
+            <h4 class="font-bold text-white text-base">${p.name}</h4>
             <p class="text-xs text-slate-400">Elo: <strong class="text-lime-400">${Math.round(p.elo)}</strong> | Record: ${p.wins}-${p.losses} (${Math.round(p.winRate*100)}%)</p>
           </div>
           <div class="flex flex-wrap gap-2 text-[11px]">
@@ -467,7 +472,7 @@
     }
 
     function populateDropdowns() {
-      let opts = '<option value="">-- Select Player --</option>' + [...window.state.players].sort((a,b)=>a.name.localeCompare(b.name)).map(p => `<option value="${p.id}">${p.name} (${p.age || 25})</option>`).join('');
+      let opts = '<option value="">-- Select Player --</option>' + [...window.state.players].sort((a,b)=>a.name.localeCompare(b.name)).map(p => `<option value="${p.id}">${p.name}</option>`).join('');
       ['t1p1', 't1p2', 't2p1', 't2p2'].forEach(id => { let el = document.getElementById(id); if(el) el.innerHTML = opts; });
     }
 
@@ -539,20 +544,41 @@
     function handleAddPlayer(e) {
       e.preventDefault();
       let input = document.getElementById('new-player-name'), name = input.value.trim();
-      let ageInput = document.getElementById('new-player-age'), age = parseInt(ageInput.value) || 25;
-      if (name) {
-        window.state.players.push({ id: 'p_' + Date.now(), name: name, age: age });
+      let bracketSelect = document.getElementById('new-player-age-bracket'), bracket = bracketSelect.value;
+      if (name && bracket) {
+        window.state.players.push({ id: 'p_' + Date.now(), name: name, ageBracket: bracket });
         commitToGitHub({ players: window.state.players, matches: window.state.matches }, function() {
-          input.value = ''; ageInput.value = ''; refreshAllViews(); alert(name + " (" + age + "y) added!");
+          input.value = ''; bracketSelect.value = ''; refreshAllViews(); alert(name + " added!");
         });
       }
+    }
+
+    function editPlayer(playerId) {
+      let player = window.state.players.find(p => p.id === playerId);
+      if (!player) return;
+
+      let newName = prompt("Edit Player Name:", player.name);
+      if (newName === null) return;
+      let newBracket = prompt("Edit Age Bracket (5-15, 15-20, 20-30, 30-40, 40-50, 50-60, 60-70, 70-80, 80-90):", player.ageBracket || "20-30");
+      if (newBracket === null) return;
+
+      player.name = newName.trim() || player.name;
+      player.ageBracket = newBracket.trim() || player.ageBracket;
+
+      commitToGitHub({ players: window.state.players, matches: window.state.matches }, function() {
+        refreshAllViews();
+        alert("Player updated successfully!");
+      });
     }
 
     function renderManageTab() {
       let rosterHtml = '';
       window.state.players.forEach(p => {
         rosterHtml += `<div class="flex items-center justify-between bg-slate-900 p-2.5 rounded-lg border border-slate-700 text-xs">
-          <span class="font-bold text-white">${p.name} <span class="text-slate-400 font-normal">(${p.age || 25}y)</span></span>
+          <span class="font-bold text-white">${p.name} <span class="text-slate-500 font-normal">(${p.ageBracket || 'N/A'})</span></span>
+          <button onclick="editPlayer('${p.id}')" class="bg-slate-800 hover:bg-slate-700 text-lime-400 border border-slate-700 font-bold px-2 py-0.5 rounded text-[11px]">
+            <i class="fa-solid fa-pen"></i> Edit
+          </button>
         </div>`;
       });
       document.getElementById('manage-roster-list').innerHTML = rosterHtml;
