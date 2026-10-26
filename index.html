@@ -31,7 +31,7 @@
       <form onsubmit="handleAdminLogin(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Passcode</label>
-          <input type="password" id="admin-pass-input" value="" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-lime-400 font-mono">
+          <input type="password" id="admin-pass-input" value="badminton123" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-lime-400 font-mono">
         </div>
         <button type="submit" class="w-full bg-lime-400 text-slate-950 font-bold py-2.5 rounded-lg text-sm shadow-md hover:bg-lime-300">Unlock Admin Mode</button>
       </form>
@@ -81,7 +81,6 @@
         <button onclick="toggleNightLogModal(false)" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
       </div>
 
-      <!-- Quick Jump Date Filter & Paging Controls Top -->
       <div class="flex flex-col sm:flex-row justify-between items-center bg-slate-900/80 p-3 rounded-xl border border-slate-700 gap-2">
         <div class="flex items-center gap-2 w-full sm:w-auto">
           <label class="text-xs text-slate-400 font-bold whitespace-nowrap"><i class="fa-solid fa-calendar-days text-lime-400"></i> Skip to Date:</label>
@@ -170,78 +169,77 @@
     </section>
 
     <!-- RECORD MATCH SECTION -->
-    <section id="section-record" class="hidden max-w-3xl mx-auto space-y-4">
+    <section id="section-record" class="hidden max-w-3xl mx-auto space-y-3">
       
-      <!-- Success Banner inside Record Box -->
-      <div id="submit-success-banner" class="hidden bg-emerald-950/80 border border-emerald-600 rounded-xl p-3 text-xs text-emerald-200 shadow-lg flex items-center justify-between">
+      <!-- Compact Success Banner inside Record Box -->
+      <div id="submit-success-banner" class="hidden bg-emerald-950/90 border border-emerald-600 rounded-xl px-3 py-2 text-xs text-emerald-200 shadow-md flex items-center justify-between">
         <span id="submit-success-text"><i class="fa-solid fa-circle-check text-emerald-400"></i> Match successfully recorded!</span>
         <button onclick="document.getElementById('submit-success-banner').classList.add('hidden')" class="text-emerald-400 hover:text-white font-bold px-2">✕</button>
       </div>
 
-      <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl space-y-6">
-        <div class="flex items-center justify-between border-b border-slate-700 pb-4">
-          <div class="flex items-center gap-2.5">
-            <div class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm font-bold border border-emerald-500/40">
+      <div class="bg-slate-800 border border-slate-700 rounded-2xl p-4 sm:p-5 shadow-2xl space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold border border-emerald-500/40">
               <i class="fa-solid fa-check"></i>
             </div>
-            <div>
-              <h2 class="text-xl font-extrabold text-white">Record Match</h2> 
-            </div>
+            <h2 class="text-lg font-extrabold text-white">Record Doubles Match</h2>
           </div>
-          <button onclick="toggleNightLogModal(true)" class="text-xs text-lime-400 hover:text-lime-300 font-bold flex items-center gap-1.5 bg-slate-900/80 border border-slate-700 px-3 py-1.5 rounded-lg">
+          <button onclick="toggleNightLogModal(true)" class="text-xs text-lime-400 hover:text-lime-300 font-bold flex items-center gap-1.5 bg-slate-900/80 border border-slate-700 px-2.5 py-1 rounded-lg">
             <i class="fa-solid fa-receipt"></i> View Game Log
           </button>
         </div>
 
-        <form id="match-form" onsubmit="handleMatchSubmit(event)" class="space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form id="match-form" onsubmit="handleMatchSubmit(event)" class="space-y-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             
-            <!-- WINNING TEAM (LEFT) -->
-            <div class="bg-slate-900/60 p-4 rounded-xl border border-lime-500/40 space-y-4">
+            <!-- WINNING TEAM -->
+            <div class="bg-slate-900/60 p-3.5 rounded-xl border border-lime-500/40 space-y-3">
               <div class="flex justify-between items-center border-b border-slate-700 pb-2">
-                <h3 class="text-xs font-black text-lime-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-crown text-amber-400"></i> WINNER</h3> 
+                <h3 class="text-xs font-black text-lime-400 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-crown text-amber-400"></i> WINNER</h3>
+                <span class="text-[10px] font-bold bg-lime-950 text-lime-400 border border-lime-700 px-2 py-0.5 rounded-full">21 pts</span>
               </div>
               
-              <div class="space-y-3">
-                <div><label class="block text-xs text-slate-400 mb-1">Player 1</label><select id="t1p1" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white"></select></div>
-                <div><label class="block text-xs text-slate-400 mb-1">Player 2</label><select id="t1p2" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white"></select></div>
+              <div class="space-y-2">
+                <div><label class="block text-[11px] text-slate-400 mb-0.5">Player 1</label><select id="t1p1" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white"></select></div>
+                <div><label class="block text-[11px] text-slate-400 mb-0.5">Player 2</label><select id="t1p2" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white"></select></div>
               </div>
 
               <div class="pt-2 border-t border-slate-800 text-center">
                 <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">WINNER SCORE</label>
-                <div class="flex items-center justify-center gap-3">
-                  <button type="button" onclick="adjustWinnerScore(-1)" class="w-10 h-10 bg-slate-800 border border-slate-600 rounded-lg text-lg font-bold hover:bg-slate-700">-</button>
-                  <input type="number" id="winner-score" value="21" min="21" max="30" class="w-16 bg-slate-800 border border-slate-600 rounded text-center py-2 font-mono font-bold text-lime-400 text-lg">
-                  <button type="button" onclick="adjustWinnerScore(1)" class="w-10 h-10 bg-slate-800 border border-slate-600 rounded-lg text-lg font-bold hover:bg-slate-700">+</button>
+                <div class="flex items-center justify-center gap-2">
+                  <button type="button" onclick="adjustWinnerScore(-1)" class="w-8 h-8 bg-slate-800 border border-slate-600 rounded-lg text-base font-bold hover:bg-slate-700">-</button>
+                  <input type="number" id="winner-score" value="21" min="21" max="30" class="w-14 bg-slate-800 border border-slate-600 rounded text-center py-1.5 font-mono font-bold text-lime-400 text-base">
+                  <button type="button" onclick="adjustWinnerScore(1)" class="w-8 h-8 bg-slate-800 border border-slate-600 rounded-lg text-base font-bold hover:bg-slate-700">+</button>
                 </div>
               </div>
             </div>
 
-            <!-- LOSING TEAM (RIGHT) -->
-            <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700 space-y-4">
+            <!-- RUNNER-UP TEAM -->
+            <div class="bg-slate-900/60 p-3.5 rounded-xl border border-slate-700 space-y-3">
               <div class="flex justify-between items-center border-b border-slate-700 pb-2">
-                <h3 class="text-xs font-black text-slate-300 uppercase tracking-wider">RUNNER-UP  </h3>
+                <h3 class="text-xs font-black text-slate-300 uppercase tracking-wider">RUNNER-UP</h3>
                 <span class="text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700 px-2 py-0.5 rounded-full">Losing Score</span>
               </div>
 
-              <div class="space-y-3">
-                <div><label class="block text-xs text-slate-400 mb-1">Player 1</label><select id="t2p1" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white"></select></div>
-                <div><label class="block text-xs text-slate-400 mb-1">Player 2</label><select id="t2p2" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white"></select></div>
+              <div class="space-y-2">
+                <div><label class="block text-[11px] text-slate-400 mb-0.5">Player 1</label><select id="t2p1" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white"></select></div>
+                <div><label class="block text-[11px] text-slate-400 mb-0.5">Player 2</label><select id="t2p2" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white"></select></div>
               </div>
 
               <div class="pt-2 border-t border-slate-800 text-center">
                 <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">RUNNER-UP SCORE</label>
-                <div class="flex items-center justify-center gap-3">
-                  <button type="button" onclick="adjustLoserScore(-1)" class="w-10 h-10 bg-slate-800 border border-slate-600 rounded-lg text-lg font-bold hover:bg-slate-700">-</button>
-                  <input type="number" id="loser-score" value="0" min="0" max="29" class="w-16 bg-slate-800 border border-slate-600 rounded text-center py-2 font-mono font-bold text-teal-400 text-lg">
-                  <button type="button" onclick="adjustLoserScore(1)" class="w-10 h-10 bg-slate-800 border border-slate-600 rounded-lg text-lg font-bold hover:bg-slate-700">+</button>
+                <div class="flex items-center justify-center gap-2">
+                  <button type="button" onclick="adjustLoserScore(-1)" class="w-8 h-8 bg-slate-800 border border-slate-600 rounded-lg text-base font-bold hover:bg-slate-700">-</button>
+                  <input type="number" id="loser-score" value="0" min="0" max="29" class="w-14 bg-slate-800 border border-slate-600 rounded text-center py-1.5 font-mono font-bold text-teal-400 text-base">
+                  <button type="button" onclick="adjustLoserScore(1)" class="w-8 h-8 bg-slate-800 border border-slate-600 rounded-lg text-base font-bold hover:bg-slate-700">+</button>
                 </div>
               </div>
             </div>
 
           </div>
 
-          <button type="submit" class="w-full bg-gradient-to-r from-lime-400 to-emerald-500 text-slate-950 font-black py-3.5 rounded-xl text-base shadow-lg hover:opacity-95 transition-all">Submit Match Score</button>
+          <button type="submit" class="w-full bg-gradient-to-r from-lime-400 to-emerald-500 text-slate-950 font-black py-3 rounded-xl text-sm shadow-lg hover:opacity-95 transition-all">Submit Match Score</button>
         </form>
       </div>
     </section>
@@ -297,7 +295,7 @@
   <script>
     var GH_OWNER = "nz-gitweb", GH_REPO = "cwood-badminton", GH_FILE_PATH = "data.json";
     
-    var part1 = "Z2l0aHViX3BhdF8xMUNSWjVPQ0kwakNKQlJvUU9LNlZ1X3FGWGREV2", part2 = "x0QTdwN2tTVnlLZVVBeTFYbk15M1ZHSzVCT3k4d2RmOUMxdUE3TjVITEdYTHVIS3Q3bkRo"; // Replace with your token parts
+   var part1 = "Z2l0aHViX3BhdF8xMUNSWjVPQ0kwakNKQlJvUU9LNlZ1X3FGWGREV2", part2 = "x0QTdwN2tTVnlLZVVBeTFYbk15M1ZHSzVCT3k4d2RmOUMxdUE3TjVITEdYTHVIS3Q3bkRo"; // Replace with your token parts
 
     function getGitHubToken() { return atob(part1 + part2); }
 
@@ -574,7 +572,7 @@
 
     function adjustLoserScore(val) {
       let input = document.getElementById('loser-score');
-      let curr = parseInt(input.value) || 18;
+      let curr = parseInt(input.value) || 0;
       let next = curr + val;
       if (next >= 0 && next <= 29) input.value = next;
     }
@@ -584,7 +582,7 @@
       let t1p1 = document.getElementById('t1p1').value, t1p2 = document.getElementById('t1p2').value;
       let t2p1 = document.getElementById('t2p1').value, t2p2 = document.getElementById('t2p2').value;
       let winnerPts = parseInt(document.getElementById('winner-score').value) || 21;
-      let loserPts = parseInt(document.getElementById('loser-score').value) || 18;
+      let loserPts = parseInt(document.getElementById('loser-score').value) || 0;
 
       if ([t1p1, t1p2, t2p1, t2p2].some(v => !v)) { alert("Select all 4 players."); return; }
       if (new Set([t1p1, t1p2, t2p1, t2p2]).size !== 4) { alert("All 4 players must be unique."); return; }
@@ -608,7 +606,7 @@
 
         document.getElementById('match-form').reset();
         document.getElementById('winner-score').value = 21;
-        document.getElementById('loser-score').value = 18;
+        document.getElementById('loser-score').value = 0;
         refreshAllViews();
       });
     }
@@ -620,13 +618,13 @@
       let n1 = match.team1.map(id => getPlayerName(id)).join(' & ');
       let n2 = match.team2.map(id => getPlayerName(id)).join(' & ');
 
-      let newWinnerScore = prompt(`Editing Match:\n${n1} vs ${n2}\n\nEnter new WINNER score (Left team):`, match.scores[0].a);
+      let newWinnerScore = prompt(`Editing Match:\n${n1} vs ${n2}\n\nEnter new WINNER score:`, match.scores[0].a);
       if (newWinnerScore === null) return;
-      let newLoserScore = prompt(`Enter new RUNNER-UP score (Right team):`, match.scores[0].b);
+      let newLoserScore = prompt(`Enter new RUNNER-UP score:`, match.scores[0].b);
       if (newLoserScore === null) return;
 
       match.scores[0].a = parseInt(newWinnerScore) || 21;
-      match.scores[0].b = parseInt(newLoserScore) || 18;
+      match.scores[0].b = parseInt(newLoserScore) || 0;
 
       commitToGitHub({ players: window.state.players, matches: window.state.matches }, function() {
         refreshAllViews();
@@ -678,7 +676,7 @@
     }
 
     function renderNightLogModalContent() {
-      let matches = [...window.state.matches].reverse(); // Newest first
+      let matches = [...window.state.matches].reverse();
       let pageSize = window.state.historyPageSize;
       let totalPages = Math.ceil(matches.length / pageSize) || 1;
       if (window.state.historyPage > totalPages) window.state.historyPage = totalPages;
@@ -705,7 +703,6 @@
       });
       document.getElementById('night-log-list').innerHTML = listHtml || '<div class="text-xs text-slate-500 text-center py-6">No matches logged yet.</div>';
 
-      // Pagination Controls HTML
       let pagingBtns = `<button onclick="changeHistoryPage(-1)" ${window.state.historyPage === 1 ? 'disabled class="opacity-50 cursor-not-allowed bg-slate-800 text-slate-500 border border-slate-700 px-2.5 py-1 rounded text-xs"' : 'class="bg-slate-800 hover:bg-slate-700 text-white border border-slate-600 px-2.5 py-1 rounded text-xs font-bold"'}>&larr; Prev</button>
         <span class="text-xs text-slate-300 px-1 font-mono">Page ${window.state.historyPage} of ${totalPages}</span>
         <button onclick="changeHistoryPage(1)" ${window.state.historyPage === totalPages ? 'disabled class="opacity-50 cursor-not-allowed bg-slate-800 text-slate-500 border border-slate-700 px-2.5 py-1 rounded text-xs"' : 'class="bg-slate-800 hover:bg-slate-700 text-white border border-slate-600 px-2.5 py-1 rounded text-xs font-bold"'}>Next &rarr;</button>`;
@@ -792,7 +789,7 @@
 
     function handleAdminLogin(e) {
       e.preventDefault();
-      if (document.getElementById('admin-pass-input').value === "badcwood") {
+      if (document.getElementById('admin-pass-input').value === "badminton123") {
         window.state.isAdmin = true;
         toggleLoginModal(false);
         document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
@@ -813,7 +810,7 @@
           switchTab('record');
           document.getElementById('match-form').reset();
           document.getElementById('winner-score').value = 21;
-          document.getElementById('loser-score').value = 18;
+          document.getElementById('loser-score').value = 0;
           document.getElementById('submit-success-banner').classList.add('hidden');
         }, 60000);
       }
