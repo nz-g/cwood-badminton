@@ -1,17 +1,65 @@
 {
   "players": [
-    { "id": "p1", "name": "Adam", "ageBracket": "80-90" },
-    { "id": "p2", "name": "Paul", "ageBracket": "80-90" },
-    { "id": "p3", "name": "Vince", "ageBracket": "80-90" },
-    { "id": "p4", "name": "Truc", "ageBracket": "80-90" },
-    { "id": "p5", "name": "Phil", "ageBracket": "80-90" },
-    { "id": "p6", "name": "Max", "ageBracket": "80-90" },
-    { "id": "p7", "name": "Jay", "ageBracket": "80-90" },
-    { "id": "p8", "name": "Kylie", "ageBracket": "80-90" },
-    { "id": "p9", "name": "Jessie", "ageBracket": "80-90" },
-    { "id": "p10", "name": "Abe", "ageBracket": "80-90" },
-    { "id": "p11", "name": "Logan", "ageBracket": "80-90" },
-    { "id": "p12", "name": "Bruce", "ageBracket": "80-90" }
+    {
+      "id": "p1",
+      "name": "Adam",
+      "ageBracket": "20-30"
+    },
+    {
+      "id": "p2",
+      "name": "Paul",
+      "ageBracket": "30-40"
+    },
+    {
+      "id": "p3",
+      "name": "Vince",
+      "ageBracket": "30-40"
+    },
+    {
+      "id": "p4",
+      "name": "Truc",
+      "ageBracket": "20-30"
+    },
+    {
+      "id": "p5",
+      "name": "Phil",
+      "ageBracket": "40-50"
+    },
+    {
+      "id": "p6",
+      "name": "Max",
+      "ageBracket": "15-20"
+    },
+    {
+      "id": "p7",
+      "name": "Jay",
+      "ageBracket": "30-40"
+    },
+    {
+      "id": "p8",
+      "name": "Kylie",
+      "ageBracket": "20-30"
+    },
+    {
+      "id": "p9",
+      "name": "Jessie",
+      "ageBracket": "30-40"
+    },
+    {
+      "id": "p10",
+      "name": "Abe",
+      "ageBracket": "40-50"
+    },
+    {
+      "id": "p11",
+      "name": "Logan",
+      "ageBracket": "15-20"
+    },
+    {
+      "id": "p12",
+      "name": "Bruce",
+      "ageBracket": "60-70"
+    }
   ],
   "matches": []
 }
