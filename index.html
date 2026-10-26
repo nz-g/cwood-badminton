@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-slate-900 text-slate-100">
 <head>
+  <!--Version 2.0 -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cwood Badminton Stats</title>
@@ -38,6 +39,7 @@
     </div>
   </div>
 
+  <!-- Header Navigation -->
   <header class="bg-slate-950/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
       <div class="flex items-center gap-3">
@@ -59,7 +61,8 @@
   </header>
 
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6 space-y-8">
-    <!-- STANDINGS -->
+    
+    <!-- STANDINGS SECTION -->
     <section id="section-leaderboard" class="space-y-6">
       <div class="bg-slate-800/90 border border-slate-700 rounded-2xl p-5 shadow-xl">
         <h2 class="text-2xl font-extrabold text-white mb-4"><i class="fa-solid fa-ranking-star text-lime-400"></i> League Standings & Elo Ratings</h2>
@@ -89,10 +92,10 @@
       </div>
     </section>
 
-    <!-- RECORD MATCH -->
+    <!-- RECORD MATCH SECTION -->
     <section id="section-record" class="hidden max-w-3xl mx-auto space-y-4">
       <!-- Recent Match Undo Banner -->
-      <div id="undo-banner" class="hidden bg-emerald-950/80 border border-emerald-600 rounded-xl p-3 flex items-center justify-between text-xs text-emerald-200">
+      <div id="undo-banner" class="hidden bg-emerald-950/80 border border-emerald-600 rounded-xl p-3 flex items-center justify-between text-xs text-emerald-200 shadow-lg">
         <span id="undo-text">Successfully recorded match.</span>
         <button onclick="undoLastMatch()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1 rounded">Undo Match</button>
       </div>
@@ -100,20 +103,21 @@
       <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl space-y-6">
         <div class="flex items-center justify-between border-b border-slate-700 pb-4">
           <h2 class="text-2xl font-black text-white"><i class="fa-solid fa-clipboard-check text-lime-400"></i> Record Doubles Match</h2>
-          <button onclick="toggleMatchLogDrawer(true)" class="bg-slate-700 hover:bg-slate-600 text-xs text-white font-bold px-3 py-1.5 rounded-lg"><i class="fa-solid fa-clock-rotate-left"></i> View Night Log</button>
+          <span class="text-xs text-slate-400 font-semibold">Fire Tablet Kiosk Mode</span>
         </div>
 
         <form id="match-form" onsubmit="handleMatchSubmit(event)" class="space-y-6">
+          
           <!-- Winner Selection & Scoring -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700 text-center space-y-2">
               <label class="block text-xs font-bold text-lime-400 uppercase">Select Winning Team</label>
               <div class="flex justify-center gap-4">
                 <label class="cursor-pointer bg-slate-800 px-4 py-2 rounded-lg border border-slate-600 hover:border-lime-400">
-                  <input type="radio" name="winner" value="team1" checked onchange="updateScoreDefaults()" class="mr-1"> Team 1
+                  <input type="radio" name="winner" value="team1" checked class="mr-1"> Team 1
                 </label>
                 <label class="cursor-pointer bg-slate-800 px-4 py-2 rounded-lg border border-slate-600 hover:border-lime-400">
-                  <input type="radio" name="winner" value="team2" onchange="updateScoreDefaults()" class="mr-1"> Team 2
+                  <input type="radio" name="winner" value="team2" class="mr-1"> Team 2
                 </label>
               </div>
             </div>
@@ -121,9 +125,9 @@
             <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700 text-center space-y-2">
               <label class="block text-xs font-bold text-slate-400 uppercase">Losing Team Score (Winner: 21)</label>
               <div class="flex items-center justify-center gap-3">
-                <button type="button" onclick="adjustLoserScore(-1)" class="w-10 h-10 bg-slate-800 border border-slate-600 rounded-lg text-lg font-bold">-</button>
+                <button type="button" onclick="adjustLoserScore(-1)" class="w-10 h-10 bg-slate-800 border border-slate-600 rounded-lg text-lg font-bold hover:bg-slate-700">-</button>
                 <input type="number" id="loser-score" value="18" min="0" max="29" class="w-16 bg-slate-800 border border-slate-600 rounded text-center py-2 font-mono font-bold text-teal-400 text-lg">
-                <button type="button" onclick="adjustLoserScore(1)" class="w-10 h-10 bg-slate-800 border border-slate-600 rounded-lg text-lg font-bold">+</button>
+                <button type="button" onclick="adjustLoserScore(1)" class="w-10 h-10 bg-slate-800 border border-slate-600 rounded-lg text-lg font-bold hover:bg-slate-700">+</button>
               </div>
             </div>
           </div>
@@ -143,12 +147,12 @@
             </div>
           </div>
 
-          <button type="submit" class="w-full bg-gradient-to-r from-lime-400 to-emerald-500 text-slate-950 font-black py-3.5 rounded-xl text-base shadow-lg">Submit Match Score</button>
+          <button type="submit" class="w-full bg-gradient-to-r from-lime-400 to-emerald-500 text-slate-950 font-black py-3.5 rounded-xl text-base shadow-lg hover:opacity-95 transition-all">Submit Match Score</button>
         </form>
       </div>
     </section>
 
-    <!-- PLAYER STATS -->
+    <!-- PLAYER STATS SECTION -->
     <section id="section-profiles" class="hidden space-y-6">
       <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-xl space-y-6">
         <h2 class="text-2xl font-extrabold text-white"><i class="fa-solid fa-id-card text-lime-400"></i> All Players Directory & Category Ranks</h2>
@@ -156,13 +160,13 @@
       </div>
     </section>
 
-    <!-- AWARDS INFO -->
+    <!-- AWARDS INFO SECTION -->
     <section id="section-awards" class="hidden space-y-6">
       <h2 class="text-3xl font-black text-white text-center mb-6">League Superlatives & Full Rankings</h2>
       <div id="awards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
 
-    <!-- ROSTER & LOG -->
+    <!-- ROSTER & LOG SECTION -->
     <section id="section-manage" class="hidden space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-xl space-y-4">
@@ -179,6 +183,7 @@
         </div>
       </div>
     </section>
+
   </main>
 
   <script>
@@ -259,7 +264,6 @@
         return p;
       });
 
-      // Compute categorical ranks
       let rMvp = [...arr].sort((a,b) => b.elo - a.elo);
       let rImp = [...arr].sort((a,b) => (b.elo - 1000) - (a.elo - 1000));
       let rDef = [...arr].sort((a,b) => b.ratio - a.ratio);
@@ -365,7 +369,6 @@
       ['t1p1', 't1p2', 't2p1', 't2p2'].forEach(id => { let el = document.getElementById(id); if(el) el.innerHTML = opts; });
     }
 
-    function updateScoreDefaults() { /* Handled seamlessly */ }
     function adjustLoserScore(val) {
       let input = document.getElementById('loser-score');
       let curr = parseInt(input.value) || 0;
@@ -471,6 +474,7 @@
         window.state.isAdmin = false;
         document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));
         document.getElementById('badge-view-mode').innerText = "Public View";
+        document.getElementById('badge-view-mode').className = "px-2 py-0.5 rounded-full text-[10px] font-bold border bg-slate-800 text-slate-400 border-slate-700";
         document.getElementById('btn-auth-toggle').innerText = "Admin";
         switchTab('leaderboard');
       }
@@ -484,6 +488,7 @@
         document.getElementById('admin-pass-input').value = '';
         document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
         document.getElementById('badge-view-mode').innerText = "Admin Mode";
+        document.getElementById('badge-view-mode').className = "px-2 py-0.5 rounded-full text-[10px] font-bold border bg-emerald-950 text-emerald-400 border-emerald-800";
         document.getElementById('btn-auth-toggle').innerText = "Exit Admin";
         switchTab('record');
         resetInactivityTimer();
@@ -499,6 +504,7 @@
           switchTab('record');
           document.getElementById('match-form').reset();
           document.getElementById('loser-score').value = 18;
+          document.getElementById('undo-banner').classList.add('hidden');
         }, 60000);
       }
     }
