@@ -31,7 +31,7 @@
       <form onsubmit="handleAdminLogin(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Passcode</label>
-          <input type="password" id="admin-pass-input" value="badminton123" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-lime-400 font-mono">
+          <input type="password" id="admin-pass-input" value="" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-lime-400 font-mono">
         </div>
         <button type="submit" class="w-full bg-lime-400 text-slate-950 font-bold py-2.5 rounded-lg text-sm shadow-md hover:bg-lime-300">Unlock Admin Mode</button>
       </form>
@@ -792,7 +792,7 @@
 
     function handleAdminLogin(e) {
       e.preventDefault();
-      if (document.getElementById('admin-pass-input').value === "badminton123") {
+      if (document.getElementById('admin-pass-input').value === "badcwood") {
         window.state.isAdmin = true;
         toggleLoginModal(false);
         document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
